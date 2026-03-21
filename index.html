@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fine Print Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --border: #1e1e1e;
+      --border-light: #2a2a2a;
+      --text: #e8e4dc;
+      --text-muted: #6b6760;
+      --text-dim: #3a3835;
+      --accent: #c8a96e;
+      --accent-dim: #7a6340;
+      --nba: #c8a96e;
+      --mlb: #6e9ec8;
+      --api: #c86e9e;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 60px 60px;
+      opacity: 0.3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      padding: 5rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 em { font-style: italic; color: var(--accent); }
+
+    .tagline {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+
+    .section {
+      padding: 3.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--text);
+    }
+
+    .section-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+    }
+
+    .tag-nba  { color: var(--nba);      background: rgba(200,169,110,0.08); border: 1px solid rgba(200,169,110,0.2); }
+    .tag-mlb  { color: var(--mlb);      background: rgba(110,158,200,0.08); border: 1px solid rgba(110,158,200,0.2); }
+    .tag-api  { color: var(--api);      background: rgba(200,110,158,0.08); border: 1px solid rgba(200,110,158,0.2); }
+    .tag-soon { color: var(--text-muted); background: rgba(107,103,96,0.08);  border: 1px solid rgba(107,103,96,0.2);  }
+
+    .cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+    }
+
+    .card {
+      background: var(--bg);
+      padding: 1.75rem;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover { background: var(--surface); }
+
+    .card::after {
+      content: '→';
+      position: absolute;
+      bottom: 1.75rem;
+      right: 1.75rem;
+      font-size: 1rem;
+      opacity: 0;
+      transform: translateX(-4px);
+      transition: all 0.2s;
+      color: var(--accent);
+    }
+
+    .card:hover::after { opacity: 1; transform: translateX(0); }
+
+    .card.disabled { cursor: default; opacity: 0.45; }
+    .card.disabled:hover { background: var(--bg); }
+    .card.disabled::after { display: none; }
+
+    .card-sport {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+
+    .nba-color { color: var(--nba); }
+    .mlb-color { color: var(--mlb); }
+
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .card-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .card-meta {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      margin-top: auto;
+      padding-top: 0.5rem;
+    }
+
+    .api-block {
+      border: 1px solid var(--border);
+      padding: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .api-block:hover {
+      background: var(--surface);
+      border-color: var(--border-light);
+    }
+
+    .api-left { flex: 1; }
+
+    .api-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .api-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .api-right { flex-shrink: 0; }
+
+    .api-badge {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--api);
+      color: var(--api);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tier-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-top: none;
+    }
+
+    .tier {
+      background: var(--bg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      transition: background 0.2s;
+    }
+
+    .tier:hover { background: var(--surface); }
+
+    .tier-name {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .tier-price {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.7rem;
+      color: var(--api);
+      line-height: 1;
+      margin: 0.25rem 0 0.1rem;
+    }
+
+    .tier-price span {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 300;
+      color: var(--text-muted);
+    }
+
+    .tier:first-child .tier-price {
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      padding-top: 0.3rem;
+    }
+
+    .tier-calls {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.63rem;
+      color: var(--accent-dim);
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .tier-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    .about-text {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .about-text + .about-text { margin-top: 1rem; }
+
+    footer { padding: 3rem 0; }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .footer-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.95rem;
+      color: var(--text-dim);
+    }
+
+    .footer-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    header, .stat-bar, .section { animation: fadeUp 0.6s ease both; }
+    .section:nth-of-type(1) { animation-delay: 0.15s; }
+    .section:nth-of-type(2) { animation-delay: 0.2s; }
+    .section:nth-of-type(3) { animation-delay: 0.25s; }
+    .section:nth-of-type(4) { animation-delay: 0.3s; }
+
+    @media (max-width: 600px) {
+      .cards        { grid-template-columns: 1fr; }
+      .tier-grid    { grid-template-columns: 1fr; }
+      .api-block    { flex-direction: column; align-items: flex-start; }
+      .footer-inner { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="eyebrow">Fine Print Analytics</div>
+    <h1>Sports data with<br><em>nothing hidden.</em></h1>
+    <p class="tagline">Automated NBA analytics powering two newsletters and a live data API. MLB coming 2026.</p>
+  </header>
+
+    <div class="stat">
+      <span class="stat-value">3</span>
+      <span class="stat-label">API tiers</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">4x</span>
+      <span class="stat-label">Daily pipeline runs</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">NBA Newsletters</h2>
+      <span class="section-tag tag-nba">Free · Active</span>
+    </div>
+    <div class="cards">
+      <a href="https://nbafineprint.substack.com" target="_blank" class="card">
+        <span class="card-sport nba-color">NBA · Insights</span>
+        <span class="card-title">NBA Fine Print</span>
+        <p class="card-desc">Daily game previews, in-depth matchup breakdowns, and player analysis for every game on the slate.</p>
+        <span class="card-meta">nbafineprint.substack.com</span>
+      </a>
+      <a href="https://nbafineprintpicks.substack.com" target="_blank" class="card">
+        <span class="card-sport nba-color">NBA · Picks</span>
+        <span class="card-title">NBA Fine Print Picks</span>
+        <p class="card-desc">Spread picks backed by a quantitative model. Only strong divergence from market lines makes the cut.</p>
+        <span class="card-meta">nbafineprintpicks.substack.com</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">Data API</h2>
+      <span class="section-tag tag-api">Live · RapidAPI</span>
+    </div>
+    <a href="https://rapidapi.com/bureauoffineprint/api/nba-fine-print" target="_blank" class="api-block">
+      <div class="api-left">
+        <div class="api-title">NBA Fine Print API</div>
+        <p class="api-desc">Programmatic access to NBA game signals, model outputs, player analytics, ATS results, rolling averages, streaks, and historical data back to 2023.</p>
+      </div>
+      <div class="api-right">
+        <div class="api-badge">View on RapidAPI</div>
+      </div>
+    </a>
+    <div class="tier-grid">
+      <div class="tier">
+        <div class="tier-name">Basic</div>
+        <div class="tier-price">Free</div>
+        <div class="tier-calls">100 calls / month</div>
+        <p class="tier-desc">Team records, pace, rest days, and head-to-head data.</p>
+      </div>
+      <div class="tier">
+        <div class="tier-name">Pro</div>
+        <div class="tier-price">$49<span>/mo</span></div>
+        <div class="tier-calls">2,000 calls / month</div>
+        <p class="tier-desc">Adds referee analytics, travel distance, and timezone lag signals.</p>
+      </div>
+      <div class="tier">
+        <div class="tier-name">Ultra</div>
+        <div class="tier-price">$99<span>/mo</span></div>
+        <div class="tier-calls">10,000 calls / month</div>
+        <p class="tier-desc">Full access including ATS results, player analytics, rolling averages, streaks, and historical data back to 2023.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">MLB Newsletters</h2>
+      <span class="section-tag tag-soon">Coming · 2026 Season</span>
+    </div>
+    <div class="cards">
+      <div class="card disabled">
+        <span class="card-sport mlb-color">MLB · Insights</span>
+        <span class="card-title">MLB Fine Print</span>
+        <p class="card-desc">Daily game previews and matchup analysis built on the same automated pipeline as the NBA product.</p>
+        <span class="card-meta">Launching 2026 season</span>
+      </div>
+      <div class="card disabled">
+        <span class="card-sport mlb-color">MLB · Picks</span>
+        <span class="card-title">MLB Fine Print Picks</span>
+        <p class="card-desc">Run line and totals picks incorporating starting pitcher matchups, park factors, weather, and bullpen fatigue.</p>
+        <span class="card-meta">Launching 2026 season</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2 class="section-title">About</h2>
+    </div>
+    <p class="about-text">Fine Print Analytics is a fully automated sports analytics platform running on Google Cloud Platform. Data is scraped, modeled, and published four times daily without manual intervention.</p>
+    <p class="about-text">The NBA pipeline covers every game on the slate -- team form, pace, rest, travel, injury adjustments, and odds movement -- distilled into previews, picks, and a live data API. The same architecture is being extended to MLB for the 2026 season.</p>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-brand">Fine Print Analytics</span>
+      <span class="footer-note">Automated · Data-driven · No fluff</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
