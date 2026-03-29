@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NBA Fine Print API | Sports Betting Analytics Data</title>
+  <meta name="description" content="Professional NBA betting analytics API. Referee ATS splits, team pace, travel distance, timezone lag, player streaks, and 3+ seasons of historical data. Updated daily at 10am ET. Available on RapidAPI."/>
+  <meta name="keywords" content="NBA betting API, NBA analytics API, referee ATS splits, NBA pace data API, sports betting data API, NBA model data, basketball reference API, NBA player streaks API, RapidAPI NBA"/>
+  <meta property="og:title" content="NBA Fine Print API | Sports Betting Analytics"/>
+  <meta property="og:description" content="Professional NBA analytics data for developers and quantitative bettors. Referee splits, ATS results, travel, pace, player streaks. 3+ seasons. Updated daily."/>
+  <meta property="og:url" content="https://fineprintanalytics.github.io/api.html"/>
+  <meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:title" content="NBA Fine Print API | Fine Print Analytics"/>
+  <meta name="twitter:description" content="NBA betting analytics API. Referee ATS splits, pace, travel, player streaks. 3+ seasons of history. Updated daily."/>
+  <link rel="canonical" href="https://fineprintanalytics.github.io/api.html"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg-dark:        #0a0a0a;
+  --bg-card:        rgba(12, 12, 12, 0.92);
+  --bg-code:        rgba(0, 107, 114, 0.06);
+  --grid-line:      rgba(212, 175, 55, 0.08);
+  --teal-primary:   #006b72;
+  --teal-light:     #00979f;
+  --teal-glow:      rgba(0, 107, 114, 0.35);
+  --maroon-primary: #862633;
+  --maroon-glow:    rgba(134, 38, 51, 0.3);
+  --gold-accent:    #d4af37;
+  --gold-dim:       rgba(212, 175, 55, 0.12);
+  --gold-glow:      rgba(212, 175, 55, 0.2);
+  --text-main:      #e0e0e0;
+  --text-mid:       #a0a0a0;
+  --text-dim:       #666666;
+  --border-teal:    rgba(0, 107, 114, 0.35);
+  --border-gold:    rgba(212, 175, 55, 0.25);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg-dark);
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 50px 50px;
+  color: var(--text-main);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ── */
+header {
+  border-bottom: 1px solid var(--border-teal);
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10,10,10,0.96);
+  backdrop-filter: blur(16px);
+}
+.brand-rule { width: 28px; height: 1px; background: var(--gold-accent); margin-bottom: 5px; }
+.brand { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; color: var(--text-dim); }
+nav { display: flex; gap: 0.15rem; }
+nav a { color: var(--text-dim); text-decoration: none; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.4rem 0.9rem; border-radius: 3px; transition: color 0.2s, background 0.2s; }
+nav a:hover { color: var(--text-main); background: rgba(255,255,255,0.04); }
+nav a.active { color: var(--gold-accent); }
+
+/* ── Layout ── */
+.page-wrap { max-width: 1200px; margin: 0 auto; padding: 0 2.5rem 5rem; }
+
+/* ── Hero ── */
+.hero { padding: 5rem 0 4rem; }
+.hero-eyebrow { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
+.hero-eyebrow::before { content: ''; display: inline-block; width: 28px; height: 1px; background: var(--teal-light); }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 6vw, 5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+.hero h1 .word-teal { color: var(--teal-primary); }
+.hero h1 em { font-style: italic; color: var(--gold-accent); }
+.hero-sub { font-size: 1rem; color: var(--text-mid); max-width: 560px; font-weight: 300; line-height: 1.75; margin-bottom: 2.5rem; }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+/* ── Stats bar ── */
+.stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5px; margin-bottom: 4rem; }
+.stat-block { background: var(--bg-card); border: 1px solid var(--border-teal); padding: 1.5rem 2rem; }
+.stat-block:first-child { border-top: 2px solid var(--teal-primary); }
+.stat-value { font-family: 'DM Mono', monospace; font-size: 1.8rem; font-weight: 500; color: var(--gold-accent); line-height: 1; margin-bottom: 0.4rem; }
+.stat-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); }
+
+/* ── Section Rule ── */
+.section-rule { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.section-rule h2 { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-dim); white-space: nowrap; }
+.section-rule::after { content: ''; flex: 1; height: 1px; background: var(--border-teal); }
+
+/* ── Getting Started cards ── */
+.getting-started { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5px; margin-bottom: 4rem; }
+.gs-card { background: var(--bg-card); border: 1px solid var(--border-teal); padding: 2rem; }
+.gs-card-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 800; color: var(--teal-primary); line-height: 1; margin-bottom: 0.75rem; opacity: 0.5; }
+.gs-card-title { font-size: 0.85rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.5rem; letter-spacing: 0.04em; }
+.gs-card-desc { font-size: 0.8rem; color: var(--text-dim); line-height: 1.65; font-weight: 300; }
+code { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--teal-light); background: var(--bg-code); padding: 0.1rem 0.4rem; border-radius: 3px; }
+
+/* ── Pricing ── */
+.pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5px; margin-bottom: 4rem; }
+.pricing-card { background: var(--bg-card); border: 1px solid var(--border-teal); padding: 2.5rem; position: relative; transition: all 0.3s; }
+.pricing-card.featured { border-color: var(--gold-accent); box-shadow: 0 0 30px var(--gold-glow); }
+.pricing-card.featured::before { content: 'Most Popular'; position: absolute; top: -1px; right: 2rem; background: var(--gold-accent); color: #000; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 10px; }
+.pricing-tier { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.75rem; }
+.pricing-price { font-family: 'DM Mono', monospace; font-size: 2.5rem; font-weight: 500; line-height: 1; margin-bottom: 0.25rem; }
+.pricing-price.free { color: var(--teal-light); }
+.pricing-price.pro  { color: var(--gold-accent); }
+.pricing-price.ultra { color: var(--text-main); }
+.pricing-period { font-size: 0.8rem; color: var(--text-dim); font-family: 'DM Sans', sans-serif; font-weight: 300; }
+.pricing-calls { font-size: 0.72rem; color: var(--text-dim); margin: 0.75rem 0 1.5rem; font-family: 'DM Mono', monospace; }
+.pricing-features { list-style: none; }
+.pricing-features li { font-size: 0.8rem; color: var(--text-mid); padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-weight: 300; display: flex; gap: 0.6rem; align-items: flex-start; }
+.pricing-features li::before { content: '→'; color: var(--teal-light); flex-shrink: 0; font-size: 0.7rem; margin-top: 0.1rem; }
+.pricing-features li.highlight { color: var(--text-main); font-weight: 400; }
+.pricing-features li.highlight::before { color: var(--gold-accent); }
+
+/* ── Team IDs ── */
+.team-ids-block { background: var(--bg-card); border: 1px solid var(--border-teal); border-left: 3px solid var(--teal-primary); padding: 2rem; margin-bottom: 4rem; }
+.team-ids-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+.team-tag { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--teal-light); background: rgba(0,107,114,0.08); border: 1px solid var(--border-teal); padding: 0.25rem 0.6rem; border-radius: 3px; }
+
+/* ── Endpoints ── */
+.endpoint-group { margin-bottom: 3.5rem; }
+.endpoint-group-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+.endpoint-card { background: var(--bg-card); border: 1px solid var(--border-teal); margin-bottom: 1.5px; position: relative; overflow: hidden; transition: border-color 0.2s; }
+.endpoint-card:hover { border-color: rgba(0,107,114,0.6); }
+.endpoint-header { padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; cursor: pointer; }
+.endpoint-left { flex: 1; min-width: 0; }
+.endpoint-name { font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin-bottom: 0.4rem; }
+.endpoint-path { font-family: 'DM Mono', monospace; font-size: 0.78rem; color: var(--teal-light); display: flex; align-items: center; gap: 0.5rem; }
+.method-badge { background: var(--teal-primary); color: #fff; font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; padding: 2px 7px; border-radius: 2px; flex-shrink: 0; }
+.tier-badge { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; white-space: nowrap; flex-shrink: 0; align-self: flex-start; }
+.tier-basic  { background: rgba(0,107,114,0.1);  color: var(--teal-light);  border: 1px solid var(--border-teal); }
+.tier-pro    { background: rgba(212,175,55,0.08); color: var(--gold-accent); border: 1px solid var(--border-gold); }
+.tier-ultra  { background: rgba(134,38,51,0.1);  color: #e07080;            border: 1px solid rgba(134,38,51,0.3); }
+
+.endpoint-body { padding: 0 2rem 2rem; border-top: 1px solid rgba(255,255,255,0.04); }
+.endpoint-desc { font-size: 0.85rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; margin-bottom: 1.25rem; padding-top: 1.25rem; }
+.endpoint-usecase { background: rgba(212,175,55,0.05); border: 1px solid var(--border-gold); border-left: 3px solid var(--gold-accent); padding: 1rem 1.25rem; border-radius: 0 3px 3px 0; margin-bottom: 1.25rem; }
+.endpoint-usecase-label { font-size: 0.58rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-accent); margin-bottom: 0.4rem; }
+.endpoint-usecase p { font-size: 0.8rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+.params-title { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 0.75rem; }
+.params-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.params-table th { text-align: left; color: var(--text-dim); font-weight: 500; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.5rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.params-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid rgba(255,255,255,0.03); color: var(--text-mid); vertical-align: top; }
+.params-table td:first-child { font-family: 'DM Mono', monospace; color: var(--teal-light); font-size: 0.75rem; }
+.param-type { font-family: 'DM Mono', monospace; font-size: 0.68rem; color: var(--text-dim); }
+.param-example { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--gold-accent); }
+
+/* ── Notes block ── */
+.notes-block { background: var(--bg-card); border: 1px solid var(--border-teal); border-top: 2px solid var(--teal-primary); padding: 2rem; margin-bottom: 4rem; }
+.notes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+.note-item-label { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal-light); margin-bottom: 0.4rem; }
+.note-item-text { font-size: 0.8rem; color: var(--text-dim); line-height: 1.6; font-weight: 300; }
+
+/* ── CTA ── */
+.cta-block { background: var(--bg-card); border: 1px solid var(--border-teal); border-top: 2px solid var(--teal-primary); padding: 3rem; text-align: center; box-shadow: 0 0 50px var(--teal-glow); }
+.cta-block h2 { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 800; margin-bottom: 0.75rem; }
+.cta-block p { font-size: 0.9rem; color: var(--text-mid); margin-bottom: 2rem; font-weight: 300; }
+.cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* ── Buttons ── */
+.btn-primary { background: var(--maroon-primary); color: #fff; text-decoration: none; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.75rem 2rem; border-radius: 3px; white-space: nowrap; transition: filter 0.2s, box-shadow 0.2s; display: inline-block; }
+.btn-primary:hover { filter: brightness(1.2); box-shadow: 0 0 20px var(--maroon-glow); }
+.btn-outline { background: transparent; color: var(--gold-accent); border: 1px solid var(--border-gold); text-decoration: none; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.75rem 2rem; border-radius: 3px; white-space: nowrap; transition: all 0.2s; display: inline-block; }
+.btn-outline:hover { background: var(--gold-dim); box-shadow: 0 0 20px var(--gold-glow); }
+
+/* ── Badge ── */
+.badge { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.58rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; padding: 3px 9px; border-radius: 2px; }
+.badge-live { background: var(--teal-primary); color: #fff; }
+.badge-dot  { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+/* ── Footer ── */
+footer { border-top: 1px solid rgba(0,107,114,0.12); padding: 2rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-top: 4rem; }
+.footer-brand { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-dim); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: 0.72rem; color: var(--text-dim); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--teal-light); }
+.footer-legal { font-size: 0.66rem; color: rgba(255,255,255,0.12); }
+
+@media (max-width: 900px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  header { padding: 1rem 1.25rem; }
+  .page-wrap { padding: 0 1.25rem 4rem; }
+  .hero { padding: 3rem 0 2.5rem; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+  .endpoint-header { flex-direction: column; }
+  footer { padding: 1.5rem 1.25rem; flex-direction: column; align-items: flex-start; }
+}
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header>
+  <div><div class="brand-rule"></div><div class="brand">Fine Print Analytics</div></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="nba-record.html">NBA Record</a>
+    <a href="mlb-record.html">MLB Record</a>
+    <a href="api.html" class="active">API</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+
+  <!-- ── Hero ── -->
+  <div class="hero">
+    <div class="hero-eyebrow">NBA Fine Print API <span class="badge badge-live" style="margin-left:0.5rem"><span class="badge-dot"></span>Live on RapidAPI</span></div>
+    <h1>
+      <span class="word-teal">Analytics data</span><br>
+      for the <em>edge-seekers.</em>
+    </h1>
+    <p class="hero-sub">Professional-grade NBA analytics built for developers, quantitative bettors, and model builders. Referee ATS splits, pace profiles, travel burden, timezone lag, player streaks, and more. 3+ seasons of history. Updated daily at 10am ET.</p>
+    <div class="hero-cta">
+      <a href="https://rapidapi.com/bureauoffineprint/api/nba-fine-print" target="_blank" class="btn-primary">Subscribe on RapidAPI →</a>
+      <a href="#endpoints" class="btn-outline">Browse Endpoints ↓</a>
+    </div>
+  </div>
+
+  <!-- ── Stats bar ── -->
+  <div class="stats-bar">
+    <div class="stat-block">
+      <div class="stat-value">3+</div>
+      <div class="stat-label">Seasons of History</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-value">99.8%</div>
+      <div class="stat-label">ATS Coverage</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-value">18</div>
+      <div class="stat-label">Endpoints</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-value">10am</div>
+      <div class="stat-label">Daily Update ET</div>
+    </div>
+  </div>
+
+  <!-- ── Getting Started ── -->
+  <div class="section-rule"><h2>Getting Started</h2></div>
+  <div class="getting-started" style="margin-bottom:4rem">
+    <div class="gs-card">
+      <div class="gs-card-num">01</div>
+      <div class="gs-card-title">Authentication</div>
+      <div class="gs-card-desc">All endpoints require an <code>X-RapidAPI-Key</code> header. Subscribe to any plan on RapidAPI to receive your key. Pass it with every request.</div>
+    </div>
+    <div class="gs-card">
+      <div class="gs-card-num">02</div>
+      <div class="gs-card-title">Default Behavior</div>
+      <div class="gs-card-desc">All endpoints default to the current season. Pass <code>?season=2024</code> to retrieve historical data. Historical access requires Ultra tier.</div>
+    </div>
+    <div class="gs-card">
+      <div class="gs-card-num">03</div>
+      <div class="gs-card-title">Team IDs</div>
+      <div class="gs-card-desc">All <code>team_id</code> parameters use Basketball Reference abbreviations. See the full list below. Example: <code>DET</code>, <code>LAL</code>, <code>BOS</code>.</div>
+    </div>
+    <div class="gs-card">
+      <div class="gs-card-num">04</div>
+      <div class="gs-card-title">Data Freshness</div>
+      <div class="gs-card-desc">Game results, ATS outcomes, referee assignments, and player stats are updated daily at 10am ET. Real-time data is not available.</div>
+    </div>
+  </div>
+
+  <!-- ── Pricing ── -->
+  <div class="section-rule"><h2>Plans</h2></div>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="pricing-tier">Basic</div>
+      <div class="pricing-price free">Free</div>
+      <div class="pricing-calls">100 calls / month</div>
+      <ul class="pricing-features">
+        <li>Team win/loss records</li>
+        <li>Game pace &amp; possession data</li>
+        <li>Rest days &amp; back-to-back flags</li>
+        <li>All-time head-to-head records</li>
+        <li>Current season only</li>
+      </ul>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-tier">Pro</div>
+      <div class="pricing-price pro">$49<span class="pricing-period">/mo</span></div>
+      <div class="pricing-calls">2,000 calls / month</div>
+      <ul class="pricing-features">
+        <li>Everything in Basic</li>
+        <li class="highlight">Referee tendencies — pace, fouls, home win%</li>
+        <li class="highlight">Referee ATS &amp; O/U historical splits</li>
+        <li class="highlight">Team ATS record split by referee</li>
+        <li class="highlight">Team win/loss record split by referee</li>
+        <li class="highlight">Travel distance &amp; direction per game</li>
+        <li class="highlight">Timezone lag advantage per game</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-tier">Ultra</div>
+      <div class="pricing-price ultra">$99<span class="pricing-period">/mo</span></div>
+      <div class="pricing-calls">10,000 calls / month</div>
+      <ul class="pricing-features">
+        <li>Everything in Pro</li>
+        <li class="highlight">Game ATS results back to 2023</li>
+        <li class="highlight">Altitude fatigue per game &amp; player</li>
+        <li class="highlight">Team rolling averages — last 5 &amp; 10 games</li>
+        <li class="highlight">Team win/loss streaks</li>
+        <li class="highlight">Player rolling averages — pts/reb/ast</li>
+        <li class="highlight">Player hot/cold streaks</li>
+        <li class="highlight">Player performance splits by referee</li>
+        <li class="highlight">Historical seasons 2023–2026</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ── Team IDs ── -->
+  <div class="section-rule"><h2>Team IDs</h2></div>
+  <div class="team-ids-block">
+    <div class="gs-card-desc" style="margin-bottom:0">All <code>team_id</code> parameters use Basketball Reference abbreviations.</div>
+    <div class="team-ids-grid">
+      <span class="team-tag">ATL</span><span class="team-tag">BOS</span><span class="team-tag">BRK</span>
+      <span class="team-tag">CHO</span><span class="team-tag">CHI</span><span class="team-tag">CLE</span>
+      <span class="team-tag">DAL</span><span class="team-tag">DEN</span><span class="team-tag">DET</span>
+      <span class="team-tag">GSW</span><span class="team-tag">HOU</span><span class="team-tag">IND</span>
+      <span class="team-tag">LAC</span><span class="team-tag">LAL</span><span class="team-tag">MEM</span>
+      <span class="team-tag">MIA</span><span class="team-tag">MIL</span><span class="team-tag">MIN</span>
+      <span class="team-tag">NOP</span><span class="team-tag">NYK</span><span class="team-tag">OKC</span>
+      <span class="team-tag">ORL</span><span class="team-tag">PHI</span><span class="team-tag">PHO</span>
+      <span class="team-tag">POR</span><span class="team-tag">SAC</span><span class="team-tag">SAS</span>
+      <span class="team-tag">TOR</span><span class="team-tag">UTA</span><span class="team-tag">WAS</span>
+    </div>
+  </div>
+
+  <!-- ── Endpoints ── -->
+  <div id="endpoints">
+
+    <!-- BASIC -->
+    <div class="endpoint-group">
+      <div class="section-rule"><h2>Basic Endpoints — Free</h2></div>
+
+      <!-- Team Records -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Team Records</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/teams/record</div>
+          </div>
+          <span class="tier-badge tier-basic">Basic · Free</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns team win/loss records by season, including home record, away record, and overall win percentage. Defaults to the current season. Filter by <code>team_id</code> for a single team or leave blank to retrieve the full league. Useful as a foundation for any model that weights team quality or home/away splits.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>Quickly assess how a team performs at home vs on the road before evaluating a spread. A team with a strong home record but a losing away record is a very different bet depending on location — this endpoint gives you that split instantly without building your own tracking database.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference team abbreviation. Optional — omit for all teams.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current season.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Team Pace -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Team Pace</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/teams/pace</div>
+          </div>
+          <span class="tier-badge tier-basic">Basic · Free</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns game pace and possession data by team, including average possessions per game and pace ranking relative to the league. One of the most underutilized signals in betting — pace mismatch between a fast team and a slow team has a measurable effect on game totals and scoring patterns.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>When a high-pace team like OKC plays a slow, defensive team like NYK, the total line often doesn't fully account for the pace suppression. Pull both teams' pace profiles, calculate the mismatch, and compare against the posted total. This endpoint is the data layer behind one of the strongest signals in the Fine Print model.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Filter to a specific game date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Team Rest -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Team Rest</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/teams/rest</div>
+          </div>
+          <span class="tier-badge tier-basic">Basic · Free</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns rest days and back-to-back flags per game by team. Includes days since last game for both home and away teams, and flags whether the game is part of a back-to-back set. Rest differential is a classic betting signal — particularly valuable when one team is on a back-to-back and the other has had 2+ days off.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>An away team playing their second game in two nights while the home team has had three days off is a significant structural disadvantage. Use this endpoint to systematically identify those spots across the full slate rather than relying on manually checking schedules. Combine with travel data (Pro tier) for an even stronger signal.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Filter to a specific game date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Head to Head -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Head to Head</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/teams/head-to-head</div>
+          </div>
+          <span class="tier-badge tier-basic">Basic · Free</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns all-time head-to-head record between two teams across all available seasons. Some matchups have persistent historical tendencies that the market underweights — certain teams simply own their rivals over long stretches regardless of current form.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>Before betting a close line on a divisional rivalry game, pull the head-to-head record to see if there's a persistent historical edge. A team that's 18-6 against a specific opponent over the last 4 seasons in their building is a meaningful data point that doesn't show up in current form metrics.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_a</td><td class="param-type">string</td><td class="param-example">DET</td><td>First team abbreviation. Required.</td></tr>
+              <tr><td>team_b</td><td class="param-type">string</td><td class="param-example">LAL</td><td>Second team abbreviation. Required.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRO -->
+    <div class="endpoint-group">
+      <div class="section-rule"><h2>Pro Endpoints — $49/mo</h2></div>
+
+      <!-- Referee Tendencies -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Referee Tendencies</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/referees/tendencies</div>
+          </div>
+          <span class="tier-badge tier-pro">Pro</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns historical referee game tendencies including average pace, total fouls called, free throw rate, and home team win percentage. Referee assignment is one of the most underpriced signals in NBA betting — certain officials consistently call faster or slower games, favor home teams, or allow more physical play. Defaults to refs with 20+ games; use <code>min_games=1</code> to see all referees.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>If Scott Foster is assigned and he has a 68% home win rate in his career sample, that's a structural edge for the home team regardless of who's playing. Pull tonight's referee assignments, cross-reference their home win tendencies, and factor that into your model before the line moves. This kind of data is what sharp bettors pay for.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>referee_name</td><td class="param-type">string</td><td class="param-example">Scott Foster</td><td>Full referee name. Optional — omit for all referees.</td></tr>
+              <tr><td>min_games</td><td class="param-type">number</td><td class="param-example">20</td><td>Minimum games officiated. Defaults to 20 to filter small samples.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Referee ATS -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Referee ATS</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/referees/ats</div>
+          </div>
+          <span class="tier-badge tier-pro">Pro</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns historical ATS and over/under splits for each referee, including home team ATS percentage, over percentage, and average ATS margin. Goes beyond win/loss tendencies to show whether referees consistently produce games that beat the spread and total in predictable directions.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>A referee with a 61% over rate across 200+ games isn't random — it reflects their foul-calling style inflating scoring through free throws. If tonight's ref has a persistent over lean and the total is sitting on a key number, that's actionable. Use this alongside team pace data to build a complete picture of expected scoring environment.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>referee_name</td><td class="param-type">string</td><td class="param-example">Scott Foster</td><td>Full referee name. Optional.</td></tr>
+              <tr><td>min_games</td><td class="param-type">string</td><td class="param-example">20</td><td>Minimum games threshold. Defaults to 20.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Team Referee Record -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Team Referee Record</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/teams/referee-record</div>
+          </div>
+          <span class="tier-badge tier-pro">Pro</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns a team's win/loss record and weighted referee effect score split by individual referee. Surfaces which officials a specific team consistently performs well or poorly with — some team/referee combinations have persistent multi-season tendencies that are not priced into the market.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>Query DET with Scott Foster and see Detroit's historical record when he's officiating. If a team is 3-14 with a specific referee over three seasons, that's a statistically significant pattern worth factoring into your model. Especially powerful for divisional games where the same referee assignments recur throughout the season.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference abbreviation. Required.</td></tr>
+              <tr><td>referee_name</td><td class="param-type">string</td><td class="param-example">Scott Foster</td><td>Filter to a specific referee. Optional.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Team Referee ATS -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Team Referee ATS</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/teams/referee-ats</div>
+          </div>
+          <span class="tier-badge tier-pro">Pro</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns a team's ATS record and over/under splits broken down by referee. Combines team-level betting tendencies with referee assignment to surface two-factor edges — specific team/referee combinations where the spread consistently moves in one direction.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>If LAL covers at 65% when a specific official is assigned to their home games, that's not something the closing line accounts for. Use this endpoint to build a lookup table of team/referee ATS combinations and query it nightly as referee assignments are posted — typically 1-2 days before tip-off.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference abbreviation. Required.</td></tr>
+              <tr><td>referee_name</td><td class="param-type">string</td><td class="param-example">Scott Foster</td><td>Filter to a specific referee. Optional.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Travel -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Travel Data</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/games/travel</div>
+          </div>
+          <span class="tier-badge tier-pro">Pro</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns travel distance and direction per game for both home and away teams. Measures miles traveled from previous game location, direction of travel (east vs west), and whether the team crossed significant time zones in transit. Long westward road trips are a known fatigue factor the market systematically underprices.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>An away team that flew 2,400 miles west from Miami to Denver the previous night, playing at altitude against a rested home team, is in a structural disadvantage on multiple dimensions simultaneously. Stack this with rest data and timezone lag to identify the highest-fatigue spots on any given slate.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Filter to a specific game date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Timezone Lag -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Timezone Lag</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/games/timezone-lag</div>
+          </div>
+          <span class="tier-badge tier-pro">Pro</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns timezone shift data per game including home and away team timezone changes from their previous game location and overall lag advantage. West Coast teams traveling east for early tip-offs are a well-documented edge — this endpoint quantifies that lag in hours and assigns a directional advantage score.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>A West Coast team playing a 1pm ET road game on the East Coast is essentially playing at 10am their body time. Over 3+ seasons of data, teams in this spot cover at a significantly lower rate than the market implies. Use the lag advantage score to filter for the highest-impact timezone spots without manually tracking every team's travel schedule.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Filter to a specific game date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ULTRA -->
+    <div class="endpoint-group">
+      <div class="section-rule"><h2>Ultra Endpoints — $99/mo</h2></div>
+
+      <!-- Game ATS -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Game ATS Results</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/games/ats</div>
+          </div>
+          <span class="tier-badge tier-ultra">Ultra</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns game against-the-spread results including home line, over/under, ATS result, and line source. Covers 3+ seasons of regular season games with 99.8% ATS coverage. The foundational dataset for backtesting any NBA betting model — if you want to know how a strategy performed historically, this is the data layer you need.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>Build a backtest: pull all games where a West team traveled east on a back-to-back (rest endpoint + travel endpoint), cross-reference with the ATS result from this endpoint, and measure historical cover rate. That three-endpoint workflow is how systematic bettors validate edges before putting money on them.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Filter to a specific team. Optional.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current. Historical requires Ultra.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Filter to a specific date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Altitude Fatigue (games) -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Altitude Fatigue</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/games/altitude-fatigue</div>
+          </div>
+          <span class="tier-badge tier-ultra">Ultra</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns altitude fatigue data per game including arena altitude, the away team's previous game altitude, and the altitude change they're experiencing. Teams traveling to high-altitude venues like Denver or Utah from sea-level cities face measurable performance impacts — particularly in late-game situations where conditioning becomes a factor.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>A team flying from Miami (sea level) to Denver (5,280 ft) for a road game against the Nuggets is dealing with a physiological disadvantage that doesn't appear anywhere in the box score. Use this endpoint to identify the highest altitude-change spots on the schedule and factor that into your totals model — altitude consistently suppresses scoring in the first half as teams acclimate.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Filter to a specific team. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Filter to a specific date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Team Streaks -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Team Streaks</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/teams/streaks</div>
+          </div>
+          <span class="tier-badge tier-ultra">Ultra</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns team win/loss streak data with streak length and streak label by game. Tracks current streak direction and length throughout the season. Extended winning and losing streaks have measurable effects on market pricing — the public overreacts to hot teams and sharp money fades them.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>A team on a 7-game winning streak gets inflated public betting action, which moves the line against their actual edge. Use streak data to identify when the market has overreacted to momentum and fade the inflated favorite — or conversely, find teams on losing streaks where line movement has created value on the bounce-back side.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Team Rolling Averages -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Team Rolling Averages</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/teams/rolling-averages</div>
+          </div>
+          <span class="tier-badge tier-ultra">Ultra</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns rolling averages for team stats including points scored, points allowed, win percentage, and pace over the last 5 and 10 games. Recency-weighted performance is a stronger predictor than season averages for in-season betting — a team's last 5 games tells you far more about their current form than their overall record.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>Compare both teams' last-5-game points allowed averages to build a dynamic total estimate rather than relying on season averages. If one team has allowed 118+ in 4 of their last 5 while their season average is 112, the market total is likely stale. This endpoint surfaces that gap so you can act on it before oddsmakers adjust.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Basketball Reference abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Rolling averages as of this date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Player Streaks -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Player Streak</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/players/streaks</div>
+          </div>
+          <span class="tier-badge tier-ultra">Ultra</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns player hot/cold streak data including points above or below their season average over the last 3 and 5 games. Player streaks drive prop market inefficiency — sportsbooks are slow to update props when a player is running significantly above or below their season average.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>If Cade Cunningham has scored 8+ points above his season average in each of his last 4 games, his points prop line is likely lagging behind his current form. Pull the streak data nightly, flag players who are 5+ points above or below their average in the last 3 games, and compare against the posted prop lines before they move.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>player_name</td><td class="param-type">string</td><td class="param-example">Cade Cunningham</td><td>Full player name. Required.</td></tr>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Team abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Player Rolling Averages -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Player Rolling Averages</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/players/rolling-averages</div>
+          </div>
+          <span class="tier-badge tier-ultra">Ultra</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns rolling averages for player stats including points, rebounds, and assists over the last 3 and 5 games, compared against their season average. Gives a precise read on a player's current form across all three major statistical categories simultaneously — essential for multi-leg prop parlays where correlation matters.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>Building a same-game parlay and want to know if a player is genuinely hot or just running on luck? Pull their last-3 and last-5 rolling averages across points, rebounds, and assists. A player trending up across all three categories simultaneously is a more reliable parlay leg than one who's just had two big games on assists alone.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>player_name</td><td class="param-type">string</td><td class="param-example">Cade Cunningham</td><td>Full player name. Required.</td></tr>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Team abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Rolling averages as of this date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Player Referee Stats -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Player Referee Stats</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/players/referee-stats</div>
+          </div>
+          <span class="tier-badge tier-ultra">Ultra</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns player performance splits by referee, including average points, season average comparison, and plus/minus with that official. Specific player/referee combinations have persistent multi-season patterns — certain officials call more fouls on aggressive drivers, benefiting some players and hurting others in ways the prop market doesn't price.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>Pull Cade Cunningham's stats with Scott Foster assigned and see if his scoring average changes significantly. If he averages 28 points with Foster but 21 points with other officials over a meaningful sample, that's a legitimate prop edge on tonight's game. The prop line is set on his season average — not his referee-specific average. That gap is the edge.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>player_name</td><td class="param-type">string</td><td class="param-example">Cade Cunningham</td><td>Full player name. Required.</td></tr>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Team abbreviation. Required.</td></tr>
+              <tr><td>referee_name</td><td class="param-type">string</td><td class="param-example">Scott Foster</td><td>Filter to a specific referee. Optional.</td></tr>
+              <tr><td>min_games</td><td class="param-type">number</td><td class="param-example">5</td><td>Minimum games with this referee. Defaults to 10.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Player Altitude Fatigue -->
+      <div class="endpoint-card">
+        <div class="endpoint-header">
+          <div class="endpoint-left">
+            <div class="endpoint-name">Get Player Altitude Fatigue</div>
+            <div class="endpoint-path"><span class="method-badge">GET</span>/v1/players/altitude-fatigue</div>
+          </div>
+          <span class="tier-badge tier-ultra">Ultra</span>
+        </div>
+        <div class="endpoint-body">
+          <div class="endpoint-desc">Returns player performance data broken down by quarter in altitude games, including stats and altitude change from their previous game location. Altitude effects are not uniform across a game — players often start slower in Q1 as their body adjusts and may fatigue harder in Q4. This quarter-level breakdown exposes those patterns.</div>
+          <div class="endpoint-usecase">
+            <div class="endpoint-usecase-label">Use Case</div>
+            <p>If a star player consistently scores below their average in Q1 when traveling to altitude but performs normally in Q3 and Q4, that's a first-half prop edge. Pull their altitude game quarter splits before betting first-half player props on games in Denver or Salt Lake City — the overall line won't reflect the Q1 suppression that shows up in the quarter-level data.</p>
+          </div>
+          <div class="params-title">Parameters</div>
+          <table class="params-table">
+            <thead><tr><th>Name</th><th>Type</th><th>Example</th><th>Description</th></tr></thead>
+            <tbody>
+              <tr><td>player_name</td><td class="param-type">string</td><td class="param-example">Cade Cunningham</td><td>Full player name. Required.</td></tr>
+              <tr><td>team_id</td><td class="param-type">string</td><td class="param-example">DET</td><td>Team abbreviation. Required.</td></tr>
+              <tr><td>season</td><td class="param-type">number</td><td class="param-example">2026</td><td>Season year. Defaults to current.</td></tr>
+              <tr><td>game_date</td><td class="param-type">string</td><td class="param-example">2026-03-17</td><td>Filter to a specific game date.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /endpoints -->
+
+  <!-- ── Notes ── -->
+  <div class="section-rule"><h2>Notes &amp; Defaults</h2></div>
+  <div class="notes-block">
+    <div class="notes-grid">
+      <div>
+        <div class="note-item-label">Referee Filters</div>
+        <div class="note-item-text">Referee endpoints default to officials with 20+ games to filter small samples. Pass <code>min_games=1</code> to include all referees regardless of sample size.</div>
+      </div>
+      <div>
+        <div class="note-item-label">Player Filters</div>
+        <div class="note-item-text">Player/referee endpoints default to a minimum of 10 games together. Use <code>min_games=1</code> to see all combinations including small samples.</div>
+      </div>
+      <div>
+        <div class="note-item-label">Historical Access</div>
+        <div class="note-item-text">Historical seasons 2023–2025 require Ultra tier. Pass <code>?season=2023</code> through <code>?season=2025</code> for historical data. Basic and Pro default to current season only.</div>
+      </div>
+      <div>
+        <div class="note-item-label">Data Coverage</div>
+        <div class="note-item-text">3+ complete NBA seasons (2023–2026). 99.8% ATS coverage on regular season games. All referee data joined to named referees. Updated daily at 10am ET.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <div class="cta-block">
+    <h2>Ready to <em style="color:var(--gold-accent);font-style:italic">build?</em></h2>
+    <p>Start free with 100 calls per month. No credit card required.</p>
+    <div class="cta-buttons">
+      <a href="https://rapidapi.com/bureauoffineprint/api/nba-fine-print" target="_blank" class="btn-primary">Subscribe on RapidAPI →</a>
+      <a href="nba-record.html" class="btn-outline">View Pick Record →</a>
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<footer>
+  <div class="footer-brand">Fine Print Analytics</div>
+  <div class="footer-links">
+    <a href="nba-record.html">NBA Record</a>
+    <a href="mlb-record.html">MLB Record</a>
+    <a href="api.html">API</a>
+    <a href="https://nbafineprint.substack.com" target="_blank">Newsletter</a>
+  </div>
+  <div class="footer-legal">© 2026 Fine Print Analytics · Not financial advice</div>
+</footer>
+
+</body>
+</html>
