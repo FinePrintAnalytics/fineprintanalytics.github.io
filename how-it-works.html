@@ -274,24 +274,6 @@ footer { border-top: 1px solid rgba(0,107,114,0.12); padding: 2rem 2.5rem; displ
     </div>
 
     <div class="signal-card">
-      <div class="signal-left"><div class="signal-icon">🕐</div><div class="signal-name">Timezone Lag</div><div class="signal-category">Travel &amp; Fatigue</div><span class="verdict verdict-strong">✓ Strong Signal</span></div>
-      <div class="signal-middle">
-        <div class="signal-desc">West Coast teams traveling east face a physiological disadvantage that never appears in a box score. A player whose body says it's 10am when tip-off is at 1pm ET is not performing at their physical peak. The model tracks timezone changes and assigns a lag advantage score to the home team when the conditions are right.</div>
-        <div class="signal-finding"><div class="signal-finding-label">Validated Finding</div><p>West teams visiting East opponents on a back-to-back win just 28.6% of the time. The 2-hour timezone threshold is the key cutoff — confirmed this season that 1-hour shifts show no meaningful signal and are zeroed out in the model.</p></div>
-      </div>
-      <div class="signal-right"><div class="signal-stat">71.4%</div><div class="signal-stat-label">Home win rate<br>West visits East B2B</div><div class="signal-seasons">2+ hr shift only</div></div>
-    </div>
-
-    <div class="signal-card">
-      <div class="signal-left"><div class="signal-icon">🔥</div><div class="signal-name">Win Streak</div><div class="signal-category">Momentum</div><span class="verdict verdict-moderate">~ Moderate Signal</span></div>
-      <div class="signal-middle">
-        <div class="signal-desc">Extended winning and losing streaks reflect real team momentum and market mispricing simultaneously. Hot teams attract public money that inflates their line. The model treats streaks as bidirectional with thresholds that filter out short-run noise — below those thresholds the signal is ignored entirely.</div>
-        <div class="signal-finding"><div class="signal-finding-label">Validated Finding</div><p>Home teams on a W7+ winning streak win 78% of the time this season. The model applies boosts at W4+ and W7+, with symmetric penalties for losing streaks of L3+ and L5+.</p></div>
-      </div>
-      <div class="signal-right"><div class="signal-stat">78%</div><div class="signal-stat-label">Home win rate<br>on W7+ streak</div><div class="signal-seasons">threshold-based</div></div>
-    </div>
-
-    <div class="signal-card">
       <div class="signal-left"><div class="signal-icon">👔</div><div class="signal-name">Referee Tendency</div><div class="signal-category">Officials</div><span class="verdict verdict-moderate">~ Moderate Signal</span></div>
       <div class="signal-middle">
         <div class="signal-desc">Specific referees have measurable home bias — they call fouls at different rates depending on whether the home or away team is involved. This is about unconscious crowd influence documented in officiating research for decades. The model tracks each referee's home win rate across 3+ seasons and applies it when their assignment is confirmed.</div>
