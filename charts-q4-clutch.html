@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Q4 Performance Index — Fine Print Analytics</title>
+<meta name="description" content="Who rises and who fades in close Q4s? Data-driven analysis of NBA Q4 performance across 2024-25 and 2025-26 seasons."/>
+<meta property="og:title" content="Q4 Performance Index | Fine Print Analytics"/>
+<meta property="og:description" content="Who rises and who fades in close Q4s? 2 seasons of quarter-level data."/>
+<meta property="og:url" content="https://fineprintanalytics.github.io/charts-q4-clutch.html"/>
+<link rel="canonical" href="https://fineprintanalytics.github.io/charts-q4-clutch.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C6602NT50R"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-C6602NT50R');</script>
+<style>
+:root{--bg-dark:#0a0a0a;--bg-card:rgba(12,12,12,0.92);--grid-line:rgba(212,175,55,0.08);--teal-primary:#006b72;--teal-light:#00979f;--teal-glow:rgba(0,107,114,0.35);--maroon-primary:#862633;--maroon-glow:rgba(134,38,51,0.3);--gold-accent:#d4af37;--gold-dim:rgba(212,175,55,0.12);--gold-glow:rgba(212,175,55,0.2);--text-main:#e0e0e0;--text-mid:#a0a0a0;--text-dim:#666666;--border-teal:rgba(0,107,114,0.35);--border-gold:rgba(212,175,55,0.25);--clutch:#1D9E75;--fader:#E24B4A;--clutch-dim:rgba(29,158,117,0.12);--fader-dim:rgba(226,75,74,0.12);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background-color:var(--bg-dark);background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:50px 50px;color:var(--text-main);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+header{border-bottom:1px solid var(--border-teal);padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.96);backdrop-filter:blur(16px);}
+.brand-rule{width:28px;height:1px;background:var(--gold-accent);margin-bottom:5px;}
+.brand{font-size:0.62rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:var(--text-dim);}
+nav{display:flex;gap:0.15rem;flex-wrap:wrap;}
+nav a{color:var(--text-dim);text-decoration:none;font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border-radius:3px;transition:color 0.2s,background 0.2s;}
+nav a:hover{color:var(--text-main);background:rgba(255,255,255,0.04);}
+nav a.active{color:var(--gold-accent);}
+footer{border-top:1px solid rgba(0,107,114,0.12);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem;}
+.footer-brand{font-size:0.6rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.footer-links a{font-size:0.72rem;color:var(--text-dim);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--teal-light);}
+
+.page-wrap{max-width:1100px;margin:0 auto;padding:3rem 2.5rem 2rem;}
+.page-eyebrow{font-size:0.62rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal-light);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;}
+.page-eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--teal-light);}
+.page-title{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--text-main);line-height:1.15;margin-bottom:1rem;}
+.page-meta{font-size:0.75rem;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:1rem;}
+.page-desc{font-size:0.92rem;color:var(--text-mid);max-width:680px;line-height:1.8;font-weight:300;margin-bottom:2.5rem;}
+
+.methodology{background:var(--bg-card);border:1px solid var(--border-teal);border-left:3px solid var(--teal-primary);padding:1.25rem 1.5rem;margin-bottom:2.5rem;font-size:0.8rem;color:var(--text-mid);line-height:1.75;}
+.methodology strong{color:var(--text-main);font-weight:500;}
+
+.controls-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:1.5rem;padding:1rem 1.25rem;background:var(--bg-card);border:1px solid var(--border-teal);}
+.ctrl-group{display:flex;align-items:center;gap:8px;}
+.ctrl-label{font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);}
+select{background:rgba(255,255,255,0.04);color:var(--text-main);border:1px solid var(--border-teal);font-size:0.8rem;font-family:'DM Sans',sans-serif;padding:6px 10px;border-radius:3px;outline:none;cursor:pointer;}
+select:hover{border-color:var(--teal-light);}
+.check-group{display:flex;gap:16px;flex-wrap:wrap;margin-left:auto;}
+.check-item{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--text-dim);cursor:pointer;}
+.check-item input{accent-color:var(--teal-primary);cursor:pointer;}
+
+.chart-section{background:var(--bg-card);border:1px solid var(--border-teal);padding:1.5rem;}
+.chart-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;}
+.chart-title-main{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text-main);}
+.chart-subtitle{font-size:0.75rem;color:var(--text-dim);margin-top:2px;}
+.legend{display:flex;gap:20px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text-dim);}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.chart-wrap{position:relative;width:100%;}
+
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text-dim);cursor:pointer;border:none;background:none;font-family:'DM Sans',sans-serif;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1rem;padding:0;transition:color 0.2s;}
+.back-btn:hover{color:var(--teal-light);}
+.drill-player{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--text-main);margin-bottom:4px;}
+.drill-meta{font-size:0.75rem;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:1.25rem;}
+
+.stat-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1.5rem;}
+.stat-card{background:rgba(255,255,255,0.02);border:1px solid var(--border-teal);padding:0.9rem 1rem;}
+.stat-card-label{font-size:0.65rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:4px;}
+.stat-card-val{font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:500;}
+.stat-card-sub{font-size:0.7rem;color:var(--text-dim);margin-top:2px;}
+.val-clutch{color:var(--clutch);}
+.val-fader{color:var(--fader);}
+.val-neutral{color:var(--gold-accent);}
+
+.note{font-size:0.72rem;color:var(--text-dim);margin-top:0.75rem;line-height:1.6;}
+.note a{color:var(--teal-light);text-decoration:none;}
+.note a:hover{text-decoration:underline;}
+
+.findings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5px;margin-top:2rem;}
+.finding-card{background:var(--bg-card);border:1px solid var(--border-teal);padding:1.5rem;}
+.finding-eyebrow{font-size:0.6rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.75rem;}
+.finding-stat{font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--gold-accent);line-height:1;margin-bottom:0.5rem;}
+.finding-desc{font-size:0.8rem;color:var(--text-dim);line-height:1.7;font-weight:300;}
+
+@media(max-width:640px){
+  header{padding:1rem 1.25rem;}
+  .page-wrap{padding:2rem 1.25rem;}
+  .page-title{font-size:1.8rem;}
+  .controls-bar{flex-direction:column;align-items:flex-start;}
+  .check-group{margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="brand-rule"></div>
+    <div class="brand">Fine Print Analytics</div>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="nba-record.html">NBA Record</a>
+    <a href="mlb-record.html">MLB Record</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="api.html">API</a>
+    <a href="charts.html" class="active">Charts</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+  <div class="page-eyebrow">Research · Q4 Analysis</div>
+  <h1 class="page-title">Q4 Performance Index</h1>
+  <div class="page-meta">Published April 3, 2026 &nbsp;·&nbsp; 2024-25 &amp; 2025-26 seasons &nbsp;·&nbsp; Close games only (&le;15pt margin entering Q4)</div>
+  <p class="page-desc">We tracked every NBA player with at least 30 close-game appearances over the past two seasons, comparing their Q4 output to their Q1-Q3 per-quarter average. The results reveal a consistent and exploitable pattern: some players reliably elevate when the game is on the line. Others quietly disappear.</p>
+
+  <div class="methodology">
+    <strong>Methodology:</strong> "Close game" = margin of 15 points or fewer entering Q4. "Blowout finish" filter removes games decided by more than 20 points at final whistle — these games may have garbage time that distorts Q4 stats. Q1-Q3 baseline is per-quarter average (total ÷ 3), making it a true apples-to-apples comparison with Q4. Minimum 30 qualifying games required. Top and bottom 10 shown by selected metric.
+  </div>
+
+  <div class="findings-grid">
+    <div class="finding-card">
+      <div class="finding-eyebrow">Most consistent Q4 increase</div>
+      <div class="finding-stat">+2.75</div>
+      <div class="finding-desc">Anfernee Simons (POR) leads all players with a +2.75 points-per-quarter delta in close Q4s across 39 games — consistent across both seasons.</div>
+    </div>
+    <div class="finding-card">
+      <div class="finding-eyebrow">Biggest Q4 decrease</div>
+      <div class="finding-stat">−3.11</div>
+      <div class="finding-desc">Luka Doncic (LAL) averages 3.11 fewer points per quarter in close Q4s than his Q1-Q3 baseline — with minutes also dropping (9.96 → 7.95), suggesting the coaching staff has noticed.</div>
+    </div>
+    <div class="finding-card">
+      <div class="finding-eyebrow">Most misleading raw stats</div>
+      <div class="finding-stat">−1.26</div>
+      <div class="finding-desc">Shai Gilgeous-Alexander's raw points drop but his per-minute output actually rises in Q4. He scores more efficiently — he just gets fewer minutes and fewer free throw attempts late.</div>
+    </div>
+  </div>
+
+  <div style="height:2.5rem;"></div>
+
+  <div class="controls-bar">
+    <div class="ctrl-group">
+      <span class="ctrl-label">Metric</span>
+      <select id="metricSel">
+        <option value="pts">Points delta</option>
+        <option value="fgpct">FG% delta</option>
+        <option value="ast">Assists delta</option>
+        <option value="min">Minutes delta</option>
+      </select>
+    </div>
+    <div class="check-group">
+      <label class="check-item"><input type="checkbox" id="chkB1" checked> Exclude blowout entries (&gt;15pt)</label>
+      <label class="check-item"><input type="checkbox" id="chkB2" checked> Exclude blowout finishes (&gt;20pt)</label>
+    </div>
+  </div>
+
+  <div class="chart-section">
+    <div id="lbView">
+      <div class="chart-header">
+        <div>
+          <div class="chart-title-main">Top 10 Q4 Increases / Bottom 10 Q4 Decreases</div>
+          <div class="chart-subtitle">Click any bar to see game-by-game breakdown</div>
+        </div>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot" style="background:var(--clutch);"></span>Increases (+)</span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--fader);"></span>Decreases (−)</span>
+        </div>
+      </div>
+      <div class="chart-wrap" id="lbWrap" style="height:500px;"><canvas id="lbChart"></canvas></div>
+      <p class="note">Data: 2024-25 &amp; 2025-26 NBA regular seasons + playoffs. Close games defined as &le;15pt margin entering Q4. Minimum 30 qualifying appearances. &nbsp;·&nbsp; <a href="https://nbafineprint.substack.com" target="_blank">Subscribe for picks</a></p>
+    </div>
+
+    <div id="drillView" style="display:none;">
+      <button class="back-btn" id="backBtn">← Back to leaderboard</button>
+      <div class="drill-player" id="drillName"></div>
+      <div class="drill-meta" id="drillMeta"></div>
+      <div class="stat-cards" id="drillStats"></div>
+      <div class="chart-header">
+        <div>
+          <div class="chart-title-main">Q4 <span id="drillChartMetricLabel">Points</span> — Game by Game</div>
+          <div class="chart-subtitle">Dashed line = season Q1-Q3 avg/quarter for selected metric.</div>
+        </div>
+        <div class="legend">
+          <span class="legend-item"><span class="legend-dot" style="background:#378ADD;"></span>Q4 <span id="drillLegendMetric">points</span></span>
+          <span class="legend-item"><span class="legend-dot" style="background:var(--text-dim);border-radius:50%;"></span>Q1-Q3 avg/quarter</span>
+        </div>
+      </div>
+      <div class="chart-wrap" id="drillWrap" style="height:300px;"></div>
+      <div id="drillNoLog" style="display:none;padding:1rem 0;font-size:0.8rem;color:var(--text-dim);">Game-by-game log available for Anfernee Simons, Kyrie Irving, and Luka Doncic. Summary stats shown above.</div>
+      <p class="note" id="drillNote"></p>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Fine Print Analytics</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="nba-record.html">NBA Record</a>
+    <a href="mlb-record.html">MLB Record</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="api.html">API</a>
+    <a href="charts.html">Charts</a>
+    <a href="https://nbafineprint.substack.com" target="_blank">Newsletter</a>
+  </div>
+  <div style="font-size:0.66rem;color:rgba(255,255,255,0.12);">For informational purposes only.</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const SUMMARY = {
+  "Anfernee Simons|POR":  {games:39, pts_delta:2.75,  avg_pts_q4:7.36,  avg_pts_q1q3:4.61,  fgpct_delta:8.9,  avg_fgpct_q4:53.1, avg_fgpct_q1q3:44.2, ast_delta:0.23,  avg_ast_q4:1.05, avg_ast_q1q3:0.82, min_delta:0.77,  avg_min_q4:9.28,  avg_min_q1q3:8.51},
+  "Kyrie Irving|DAL":     {games:33, pts_delta:2.11,  avg_pts_q4:8.34,  avg_pts_q1q3:6.23,  fgpct_delta:1.2,  avg_fgpct_q4:49.1, avg_fgpct_q1q3:47.9, ast_delta:-0.09, avg_ast_q4:1.26, avg_ast_q1q3:1.35, min_delta:1.30,  avg_min_q4:10.53, avg_min_q1q3:9.23},
+  "Trae Young|ATL":       {games:61, pts_delta:1.91,  avg_pts_q4:7.73,  avg_pts_q1q3:5.82,  fgpct_delta:2.9,  avg_fgpct_q4:40.8, avg_fgpct_q1q3:37.9, ast_delta:-0.43, avg_ast_q4:2.72, avg_ast_q1q3:3.15, min_delta:0.34,  avg_min_q4:9.61,  avg_min_q1q3:9.27},
+  "Jalen Williams|OKC":   {games:70, pts_delta:1.87,  avg_pts_q4:6.85,  avg_pts_q1q3:4.98,  fgpct_delta:3.3,  avg_fgpct_q4:51.5, avg_fgpct_q1q3:48.2, ast_delta:0.12,  avg_ast_q4:1.19, avg_ast_q1q3:1.07, min_delta:1.65,  avg_min_q4:9.50,  avg_min_q1q3:7.85},
+  "Donovan Mitchell|CLE": {games:94, pts_delta:1.76,  avg_pts_q4:8.28,  avg_pts_q1q3:6.52,  fgpct_delta:-2.8, avg_fgpct_q4:44.5, avg_fgpct_q1q3:47.3, ast_delta:0.21,  avg_ast_q4:1.55, avg_ast_q1q3:1.34, min_delta:-0.36, avg_min_q4:8.87,  avg_min_q1q3:9.23},
+  "Desmond Bane|ORL":     {games:56, pts_delta:1.68,  avg_pts_q4:6.57,  avg_pts_q1q3:4.89,  fgpct_delta:-0.9, avg_fgpct_q4:48.2, avg_fgpct_q1q3:49.1, ast_delta:-0.15, avg_ast_q4:0.91, avg_ast_q1q3:1.06, min_delta:0.70,  avg_min_q4:9.84,  avg_min_q1q3:9.14},
+  "LeBron James|LAL":     {games:88, pts_delta:1.65,  avg_pts_q4:7.16,  avg_pts_q1q3:5.51,  fgpct_delta:-1.5, avg_fgpct_q4:48.9, avg_fgpct_q1q3:50.4, ast_delta:-0.05, avg_ast_q4:1.97, avg_ast_q1q3:2.02, min_delta:-0.14, avg_min_q4:9.51,  avg_min_q1q3:9.65},
+  "DeMar DeRozan|SAC":    {games:100,pts_delta:1.54,  avg_pts_q4:6.60,  avg_pts_q1q3:5.05,  fgpct_delta:-4.1, avg_fgpct_q4:44.1, avg_fgpct_q1q3:48.2, ast_delta:0.01,  avg_ast_q4:1.19, avg_ast_q1q3:1.18, min_delta:-0.15, avg_min_q4:9.04,  avg_min_q1q3:9.19},
+  "De'Aaron Fox|SAC":     {games:31, pts_delta:1.46,  avg_pts_q4:7.48,  avg_pts_q1q3:6.02,  fgpct_delta:-1.6, avg_fgpct_q4:47.2, avg_fgpct_q1q3:48.8, ast_delta:0.00,  avg_ast_q4:1.51, avg_ast_q1q3:1.51, min_delta:1.03,  avg_min_q4:9.77,  avg_min_q1q3:8.74},
+  "Austin Reaves|LAL":    {games:83, pts_delta:1.32,  avg_pts_q4:6.57,  avg_pts_q1q3:5.26,  fgpct_delta:1.9,  avg_fgpct_q4:49.2, avg_fgpct_q1q3:47.3, ast_delta:-0.30, avg_ast_q4:1.21, avg_ast_q1q3:1.51, min_delta:0.37,  avg_min_q4:9.44,  avg_min_q1q3:9.07},
+  "Jayson Tatum|BOS":     {games:62, pts_delta:-1.26, avg_pts_q4:5.64,  avg_pts_q1q3:6.90,  fgpct_delta:-3.8, avg_fgpct_q4:41.8, avg_fgpct_q1q3:45.6, ast_delta:-0.27, avg_ast_q4:1.12, avg_ast_q1q3:1.39, min_delta:-1.00, avg_min_q4:8.72,  avg_min_q1q3:9.72},
+  "Dillon Brooks|PHO":    {games:34, pts_delta:-1.50, avg_pts_q4:3.82,  avg_pts_q1q3:5.32,  fgpct_delta:-6.9, avg_fgpct_q4:37.3, avg_fgpct_q1q3:44.2, ast_delta:-0.15, avg_ast_q4:0.35, avg_ast_q1q3:0.50, min_delta:-1.54, avg_min_q4:7.18,  avg_min_q1q3:8.72},
+  "James Harden|LAC":     {games:84, pts_delta:-1.54, avg_pts_q4:5.00,  avg_pts_q1q3:6.54,  fgpct_delta:1.5,  avg_fgpct_q4:42.6, avg_fgpct_q1q3:41.1, ast_delta:-0.95, avg_ast_q4:1.61, avg_ast_q1q3:2.56, min_delta:-1.78, avg_min_q4:6.96,  avg_min_q1q3:8.74},
+  "Anthony Davis|LAL":    {games:30, pts_delta:-1.57, avg_pts_q4:5.93,  avg_pts_q1q3:7.50,  fgpct_delta:-1.1, avg_fgpct_q4:53.5, avg_fgpct_q1q3:54.6, ast_delta:-0.48, avg_ast_q4:0.57, avg_ast_q1q3:1.05, min_delta:-2.25, avg_min_q4:7.03,  avg_min_q1q3:9.28},
+  "Joel Embiid|PHI":      {games:42, pts_delta:-1.58, avg_pts_q4:5.51,  avg_pts_q1q3:7.10,  fgpct_delta:-7.1, avg_fgpct_q4:44.9, avg_fgpct_q1q3:52.0, ast_delta:-0.30, avg_ast_q4:0.90, avg_ast_q1q3:1.20, min_delta:-1.63, avg_min_q4:7.54,  avg_min_q1q3:9.17},
+  "Trey Murphy III|NOP":  {games:85, pts_delta:-1.71, avg_pts_q4:4.33,  avg_pts_q1q3:6.04,  fgpct_delta:-4.6, avg_fgpct_q4:40.2, avg_fgpct_q1q3:44.8, ast_delta:-0.19, avg_ast_q4:0.72, avg_ast_q1q3:0.91, min_delta:-0.95, avg_min_q4:8.03,  avg_min_q1q3:8.98},
+  "Kristaps Porzingis|BOS":{games:33,pts_delta:-1.75, avg_pts_q4:3.10,  avg_pts_q1q3:4.85,  fgpct_delta:-10.9,avg_fgpct_q4:33.3, avg_fgpct_q1q3:44.2, ast_delta:-0.07, avg_ast_q4:0.45, avg_ast_q1q3:0.52, min_delta:-2.18, avg_min_q4:6.81,  avg_min_q1q3:8.99},
+  "Brandon Ingram|TOR":   {games:50, pts_delta:-2.34, avg_pts_q4:4.08,  avg_pts_q1q3:6.42,  fgpct_delta:-6.6, avg_fgpct_q4:41.8, avg_fgpct_q1q3:48.4, ast_delta:-0.44, avg_ast_q4:0.64, avg_ast_q1q3:1.08, min_delta:-1.06, avg_min_q4:7.72,  avg_min_q1q3:8.78},
+  "Michael Porter Jr.|BRK":{games:31,pts_delta:-2.47, avg_pts_q4:4.68,  avg_pts_q1q3:7.15,  fgpct_delta:-6.7, avg_fgpct_q4:41.5, avg_fgpct_q1q3:48.2, ast_delta:-0.30, avg_ast_q4:0.61, avg_ast_q1q3:0.91, min_delta:-1.54, avg_min_q4:7.55,  avg_min_q1q3:9.09},
+  "Luka Doncic|LAL":      {games:57, pts_delta:-3.11, avg_pts_q4:5.89,  avg_pts_q1q3:9.01,  fgpct_delta:-3.1, avg_fgpct_q4:43.0, avg_fgpct_q1q3:46.1, ast_delta:-0.63, avg_ast_q4:1.63, avg_ast_q1q3:2.26, min_delta:-2.01, avg_min_q4:7.95,  avg_min_q1q3:9.96}
+};
+
+const GAME_LOG = {
+"Anfernee Simons|POR":[{d:"10/25",opp:"NOP",hw:"vs",m:9,fm:2,pts:6,ast:0,reb:0,fgm:1,fga:8,fgp:12.5,min:7.97,base:6.0,ab:0.82,mb:8.51,fb:44.2},{d:"10/30",opp:"LAC",hw:"@",m:3,fm:1,pts:7,ast:3,reb:1,fgm:3,fga:7,fgp:42.9,min:10.2,base:6.0,ab:0.82,mb:8.51,fb:44.2},{d:"11/07",opp:"SAS",hw:"@",m:12,fm:13,pts:7,ast:1,reb:0,fgm:2,fga:6,fgp:33.3,min:7.8,base:4.0,ab:0.82,mb:8.51,fb:44.2},{d:"11/23",opp:"HOU",hw:"@",m:2,fm:6,pts:15,ast:0,reb:1,fgm:6,fga:7,fgp:85.7,min:10.78,base:3.33,ab:0.82,mb:8.51,fb:44.2},{d:"11/27",opp:"IND",hw:"@",m:11,fm:7,pts:2,ast:1,reb:2,fgm:1,fga:6,fgp:16.7,min:6.35,base:9.33,ab:0.82,mb:8.51,fb:44.2},{d:"11/29",opp:"SAC",hw:"vs",m:15,fm:9,pts:12,ast:2,reb:1,fgm:4,fga:6,fgp:66.7,min:12.0,base:3.0,ab:0.82,mb:8.51,fb:44.2},{d:"12/01",opp:"DAL",hw:"vs",m:3,fm:6,pts:0,ast:0,reb:0,fgm:0,fga:0,fgp:null,min:0.03,base:9.0,ab:0.82,mb:8.51,fb:44.2},{d:"12/13",opp:"SAS",hw:"vs",m:8,fm:2,pts:15,ast:1,reb:0,fgm:4,fga:7,fgp:57.1,min:12.0,base:5.0,ab:0.82,mb:8.51,fb:44.2},{d:"12/15",opp:"PHO",hw:"@",m:4,fm:7,pts:10,ast:1,reb:2,fgm:3,fga:7,fgp:42.9,min:12.0,base:3.33,ab:0.82,mb:8.51,fb:44.2},{d:"12/26",opp:"UTA",hw:"vs",m:7,fm:2,pts:5,ast:0,reb:0,fgm:2,fga:3,fgp:66.7,min:5.92,base:1.0,ab:0.82,mb:8.51,fb:44.2},{d:"12/28",opp:"DAL",hw:"vs",m:15,fm:4,pts:7,ast:2,reb:0,fgm:2,fga:3,fgp:66.7,min:9.43,base:5.0,ab:0.82,mb:8.51,fb:44.2},{d:"01/02",opp:"LAL",hw:"@",m:13,fm:8,pts:11,ast:0,reb:2,fgm:3,fga:6,fgp:50.0,min:12.0,base:4.0,ab:0.82,mb:8.51,fb:44.2},{d:"01/04",opp:"MIL",hw:"@",m:1,fm:3,pts:12,ast:2,reb:0,fgm:3,fga:8,fgp:37.5,min:12.0,base:5.33,ab:0.82,mb:8.51,fb:44.2},{d:"01/06",opp:"DET",hw:"@",m:2,fm:3,pts:17,ast:1,reb:0,fgm:7,fga:11,fgp:63.6,min:12.0,base:6.33,ab:0.82,mb:8.51,fb:44.2},{d:"01/09",opp:"DAL",hw:"@",m:8,fm:6,pts:6,ast:0,reb:0,fgm:3,fga:11,fgp:27.3,min:10.72,base:5.33,ab:0.82,mb:8.51,fb:44.2},{d:"01/24",opp:"CHO",hw:"@",m:2,fm:5,pts:12,ast:1,reb:1,fgm:3,fga:6,fgp:50.0,min:12.0,base:5.0,ab:0.82,mb:8.51,fb:44.2},{d:"01/28",opp:"MIL",hw:"vs",m:8,fm:13,pts:8,ast:1,reb:3,fgm:3,fga:4,fgp:75.0,min:10.82,base:5.67,ab:0.82,mb:8.51,fb:44.2},{d:"02/03",opp:"PHO",hw:"vs",m:6,fm:2,pts:3,ast:2,reb:2,fgm:1,fga:5,fgp:20.0,min:9.3,base:2.67,ab:0.82,mb:8.51,fb:44.2},{d:"02/06",opp:"SAC",hw:"vs",m:2,fm:6,pts:16,ast:0,reb:1,fgm:5,fga:6,fgp:83.3,min:9.12,base:4.67,ab:0.82,mb:8.51,fb:44.2},{d:"02/12",opp:"DEN",hw:"@",m:16,fm:11,pts:6,ast:2,reb:2,fgm:2,fga:6,fgp:33.3,min:12.0,base:6.67,ab:0.82,mb:8.51,fb:44.2},{d:"02/20",opp:"LAL",hw:"vs",m:1,fm:8,pts:4,ast:3,reb:3,fgm:2,fga:8,fgp:25.0,min:9.38,base:1.33,ab:0.82,mb:8.51,fb:44.2},{d:"02/24",opp:"UTA",hw:"@",m:4,fm:2,pts:10,ast:1,reb:0,fgm:3,fga:7,fgp:42.9,min:12.0,base:6.0,ab:0.82,mb:8.51,fb:44.2},{d:"02/26",opp:"WAS",hw:"@",m:6,fm:8,pts:6,ast:0,reb:1,fgm:2,fga:3,fgp:66.7,min:8.68,base:3.33,ab:0.82,mb:8.51,fb:44.2},{d:"03/02",opp:"CLE",hw:"@",m:10,fm:4,pts:8,ast:1,reb:1,fgm:2,fga:7,fgp:28.6,min:12.0,base:4.67,ab:0.82,mb:8.51,fb:44.2},{d:"03/05",opp:"BOS",hw:"@",m:20,fm:10,pts:15,ast:3,reb:1,fgm:5,fga:8,fgp:62.5,min:12.0,base:5.0,ab:0.82,mb:8.51,fb:44.2},{d:"03/07",opp:"OKC",hw:"@",m:7,fm:18,pts:0,ast:2,reb:2,fgm:0,fga:3,fgp:0.0,min:9.78,base:4.67,ab:0.82,mb:8.51,fb:44.2},{d:"03/09",opp:"DET",hw:"vs",m:11,fm:7,pts:9,ast:0,reb:0,fgm:4,fga:7,fgp:57.1,min:9.63,base:8.33,ab:0.82,mb:8.51,fb:44.2},{d:"03/10",opp:"GSW",hw:"@",m:10,fm:10,pts:10,ast:0,reb:1,fgm:3,fga:9,fgp:33.3,min:11.2,base:7.33,ab:0.82,mb:8.51,fb:44.2},{d:"03/12",opp:"NYK",hw:"vs",m:0,fm:1,pts:3,ast:1,reb:1,fgm:1,fga:2,fgp:50.0,min:5.87,base:1.0,ab:0.82,mb:8.51,fb:44.2},{d:"03/16",opp:"TOR",hw:"vs",m:5,fm:3,pts:12,ast:2,reb:1,fgm:4,fga:8,fgp:50.0,min:9.73,base:3.33,ab:0.82,mb:8.51,fb:44.2},{d:"03/19",opp:"MEM",hw:"vs",m:7,fm:16,pts:9,ast:1,reb:3,fgm:4,fga:11,fgp:36.4,min:10.0,base:4.33,ab:0.82,mb:8.51,fb:44.2},{d:"03/23",opp:"BOS",hw:"vs",m:12,fm:13,pts:2,ast:1,reb:1,fgm:1,fga:4,fgp:25.0,min:8.55,base:4.33,ab:0.82,mb:8.51,fb:44.2},{d:"03/25",opp:"CLE",hw:"vs",m:6,fm:11,pts:5,ast:1,reb:1,fgm:1,fga:4,fgp:25.0,min:6.73,base:0.67,ab:0.82,mb:8.51,fb:44.2},{d:"03/30",opp:"NYK",hw:"@",m:1,fm:17,pts:5,ast:1,reb:1,fgm:1,fga:7,fgp:14.3,min:10.77,base:3.33,ab:0.82,mb:8.51,fb:44.2}],
+"Kyrie Irving|DAL":[{d:"10/25",opp:"SAS",hw:"vs",m:7,fm:11,pts:0,ast:0,reb:0,fgm:0,fga:0,fgp:null,min:0,base:5.0,ab:1.35,mb:9.23,fb:47.9},{d:"10/26",opp:"PHO",hw:"@",m:11,fm:12,pts:5,ast:1,reb:2,fgm:2,fga:5,fgp:40.0,min:10.78,base:5.67,ab:1.35,mb:9.23,fb:47.9},{d:"10/28",opp:"UTA",hw:"vs",m:12,fm:8,pts:6,ast:3,reb:0,fgm:2,fga:2,fgp:100.0,min:8.73,base:5.67,ab:1.35,mb:9.23,fb:47.9},{d:"10/29",opp:"MIN",hw:"@",m:11,fm:6,pts:9,ast:0,reb:1,fgm:3,fga:6,fgp:50.0,min:12.0,base:8.67,ab:1.35,mb:9.23,fb:47.9},{d:"11/04",opp:"IND",hw:"vs",m:1,fm:7,pts:11,ast:1,reb:1,fgm:5,fga:8,fgp:62.5,min:12.0,base:5.33,ab:1.35,mb:9.23,fb:47.9},{d:"11/08",opp:"PHO",hw:"vs",m:4,fm:1,pts:9,ast:1,reb:2,fgm:4,fga:7,fgp:57.1,min:12.0,base:6.67,ab:1.35,mb:9.23,fb:47.9},{d:"11/10",opp:"DEN",hw:"@",m:3,fm:2,pts:16,ast:1,reb:2,fgm:6,fga:9,fgp:66.7,min:12.0,base:9.0,ab:1.35,mb:9.23,fb:47.9},{d:"11/12",opp:"GSW",hw:"@",m:7,fm:3,pts:9,ast:3,reb:0,fgm:3,fga:3,fgp:100.0,min:11.73,base:4.0,ab:1.35,mb:9.23,fb:47.9},{d:"11/17",opp:"OKC",hw:"@",m:5,fm:2,pts:6,ast:0,reb:0,fgm:2,fga:6,fgp:33.3,min:8.53,base:5.67,ab:1.35,mb:9.23,fb:47.9},{d:"11/22",opp:"DEN",hw:"@",m:6,fm:3,pts:2,ast:1,reb:2,fgm:0,fga:7,fgp:0.0,min:9.25,base:5.67,ab:1.35,mb:9.23,fb:47.9},{d:"11/24",opp:"MIA",hw:"@",m:5,fm:5,pts:14,ast:1,reb:0,fgm:5,fga:8,fgp:62.5,min:8.37,base:4.33,ab:1.35,mb:9.23,fb:47.9},{d:"11/25",opp:"ATL",hw:"@",m:1,fm:10,pts:16,ast:2,reb:2,fgm:6,fga:8,fgp:75.0,min:11.97,base:5.33,ab:1.35,mb:9.23,fb:47.9},{d:"11/27",opp:"NYK",hw:"vs",m:19,fm:15,pts:5,ast:3,reb:1,fgm:2,fga:6,fgp:33.3,min:10.87,base:6.0,ab:1.35,mb:9.23,fb:47.9},{d:"11/30",opp:"UTA",hw:"@",m:10,fm:12,pts:7,ast:2,reb:1,fgm:3,fga:5,fgp:60.0,min:6.08,base:7.67,ab:1.35,mb:9.23,fb:47.9},{d:"12/03",opp:"MEM",hw:"vs",m:13,fm:5,pts:4,ast:1,reb:2,fgm:0,fga:4,fgp:0.0,min:9.98,base:2.0,ab:1.35,mb:9.23,fb:47.9},{d:"12/07",opp:"TOR",hw:"@",m:13,fm:7,pts:4,ast:1,reb:0,fgm:2,fga:3,fgp:66.7,min:8.95,base:8.33,ab:1.35,mb:9.23,fb:47.9},{d:"12/10",opp:"OKC",hw:"@",m:17,fm:14,pts:8,ast:2,reb:0,fgm:3,fga:4,fgp:75.0,min:11.08,base:3.0,ab:1.35,mb:9.23,fb:47.9},{d:"12/15",opp:"GSW",hw:"@",m:7,fm:10,pts:5,ast:1,reb:1,fgm:2,fga:4,fgp:50.0,min:7.68,base:5.33,ab:1.35,mb:9.23,fb:47.9},{d:"12/21",opp:"LAC",hw:"vs",m:8,fm:16,pts:5,ast:4,reb:2,fgm:2,fga:9,fgp:22.2,min:11.42,base:3.33,ab:1.35,mb:9.23,fb:47.9},{d:"12/25",opp:"MIN",hw:"vs",m:22,fm:6,pts:15,ast:1,reb:3,fgm:5,fga:9,fgp:55.6,min:12.0,base:8.0,ab:1.35,mb:9.23,fb:47.9},{d:"12/28",opp:"POR",hw:"@",m:15,fm:4,pts:20,ast:1,reb:0,fgm:6,fga:7,fgp:85.7,min:11.73,base:8.67,ab:1.35,mb:9.23,fb:47.9},{d:"01/17",opp:"OKC",hw:"vs",m:1,fm:8,pts:3,ast:2,reb:1,fgm:1,fga:3,fgp:33.3,min:8.93,base:7.33,ab:1.35,mb:9.23,fb:47.9},{d:"01/20",opp:"CHO",hw:"@",m:1,fm:5,pts:14,ast:0,reb:2,fgm:3,fga:8,fgp:37.5,min:10.53,base:6.33,ab:1.35,mb:9.23,fb:47.9},{d:"01/22",opp:"MIN",hw:"vs",m:4,fm:1,pts:16,ast:3,reb:2,fgm:4,fga:9,fgp:44.4,min:12.0,base:6.67,ab:1.35,mb:9.23,fb:47.9},{d:"01/23",opp:"OKC",hw:"@",m:8,fm:6,pts:6,ast:0,reb:1,fgm:2,fga:4,fgp:50.0,min:11.5,base:6.0,ab:1.35,mb:9.23,fb:47.9},{d:"01/25",opp:"BOS",hw:"vs",m:20,fm:15,pts:4,ast:3,reb:1,fgm:2,fga:4,fgp:50.0,min:10.45,base:6.0,ab:1.35,mb:9.23,fb:47.9},{d:"01/29",opp:"NOP",hw:"@",m:4,fm:1,pts:5,ast:1,reb:1,fgm:2,fga:5,fgp:40.0,min:10.47,base:6.67,ab:1.35,mb:9.23,fb:47.9},{d:"02/04",opp:"PHI",hw:"@",m:7,fm:2,pts:11,ast:2,reb:1,fgm:3,fga:6,fgp:50.0,min:12.0,base:7.67,ab:1.35,mb:9.23,fb:47.9},{d:"02/06",opp:"BOS",hw:"@",m:21,fm:7,pts:8,ast:1,reb:0,fgm:3,fga:5,fgp:60.0,min:11.8,base:3.67,ab:1.35,mb:9.23,fb:47.9},{d:"02/08",opp:"HOU",hw:"vs",m:8,fm:11,pts:8,ast:1,reb:1,fgm:3,fga:6,fgp:50.0,min:11.38,base:1.67,ab:1.35,mb:9.23,fb:47.9},{d:"02/10",opp:"SAC",hw:"vs",m:6,fm:1,pts:11,ast:2,reb:3,fgm:4,fga:9,fgp:44.4,min:12.0,base:5.0,ab:1.35,mb:9.23,fb:47.9},{d:"02/12",opp:"GSW",hw:"vs",m:5,fm:4,pts:14,ast:0,reb:2,fgm:4,fga:7,fgp:57.1,min:11.6,base:9.33,ab:1.35,mb:9.23,fb:47.9},{d:"02/25",opp:"LAL",hw:"@",m:1,fm:8,pts:8,ast:1,reb:2,fgm:3,fga:8,fgp:37.5,min:12.0,base:9.0,ab:1.35,mb:9.23,fb:47.9},{d:"02/27",opp:"CHO",hw:"vs",m:6,fm:7,pts:9,ast:1,reb:2,fgm:4,fga:6,fgp:66.7,min:7.63,base:5.33,ab:1.35,mb:9.23,fb:47.9}],
+"Luka Doncic|LAL":[{d:"02/19",opp:"CHO",hw:"vs",m:3,fm:3,pts:5,ast:2,reb:2,fgm:2,fga:5,fgp:40.0,min:8.97,base:3.0,ab:2.26,mb:9.96,fb:46.1},{d:"02/22",opp:"DEN",hw:"@",m:9,fm:23,pts:6,ast:0,reb:2,fgm:2,fga:3,fgp:66.7,min:4.2,base:8.67,ab:2.26,mb:9.96,fb:46.1},{d:"02/25",opp:"DAL",hw:"vs",m:1,fm:8,pts:2,ast:3,reb:0,fgm:1,fga:3,fgp:33.3,min:7.47,base:5.67,ab:2.26,mb:9.96,fb:46.1},{d:"02/27",opp:"MIN",hw:"vs",m:11,fm:9,pts:8,ast:0,reb:4,fgm:2,fga:6,fgp:33.3,min:9.27,base:4.33,ab:2.26,mb:9.96,fb:46.1},{d:"02/28",opp:"LAC",hw:"vs",m:6,fm:4,pts:10,ast:2,reb:1,fgm:3,fga:7,fgp:42.9,min:7.82,base:7.0,ab:2.26,mb:9.96,fb:46.1},{d:"03/02",opp:"LAC",hw:"vs",m:12,fm:6,pts:7,ast:1,reb:0,fgm:1,fga:4,fgp:25.0,min:10.53,base:7.33,ab:2.26,mb:9.96,fb:46.1},{d:"03/06",opp:"NYK",hw:"vs",m:8,fm:4,pts:2,ast:4,reb:1,fgm:1,fga:5,fgp:20.0,min:9.3,base:8.33,ab:2.26,mb:9.96,fb:46.1},{d:"03/08",opp:"BOS",hw:"@",m:20,fm:10,pts:14,ast:1,reb:3,fgm:5,fga:7,fgp:71.4,min:7.9,base:6.67,ab:2.26,mb:9.96,fb:46.1},{d:"03/10",opp:"BRK",hw:"@",m:2,fm:3,pts:5,ast:1,reb:2,fgm:2,fga:4,fgp:50.0,min:9.62,base:5.67,ab:2.26,mb:9.96,fb:46.1},{d:"03/16",opp:"PHO",hw:"vs",m:12,fm:11,pts:5,ast:0,reb:3,fgm:2,fga:5,fgp:40.0,min:8.5,base:9.33,ab:2.26,mb:9.96,fb:46.1},{d:"03/17",opp:"SAS",hw:"vs",m:19,fm:16,pts:4,ast:2,reb:0,fgm:2,fga:4,fgp:50.0,min:3.95,base:5.67,ab:2.26,mb:9.96,fb:46.1},{d:"03/24",opp:"ORL",hw:"@",m:14,fm:12,pts:5,ast:3,reb:3,fgm:1,fga:2,fgp:50.0,min:8.18,base:9.0,ab:2.26,mb:9.96,fb:46.1},{d:"03/26",opp:"IND",hw:"@",m:3,fm:1,pts:5,ast:1,reb:2,fgm:2,fga:4,fgp:50.0,min:7.68,base:9.67,ab:2.26,mb:9.96,fb:46.1},{d:"03/27",opp:"CHI",hw:"@",m:16,fm:2,pts:4,ast:1,reb:0,fgm:2,fga:5,fgp:40.0,min:7.97,base:7.0,ab:2.26,mb:9.96,fb:46.1},{d:"03/29",opp:"MEM",hw:"@",m:3,fm:7,pts:7,ast:1,reb:2,fgm:1,fga:2,fgp:50.0,min:8.58,base:7.33,ab:2.26,mb:9.96,fb:46.1},{d:"04/03",opp:"GSW",hw:"vs",m:11,fm:7,pts:2,ast:2,reb:1,fgm:1,fga:3,fgp:33.3,min:7.82,base:5.67,ab:2.26,mb:9.96,fb:46.1},{d:"10/21",opp:"GSW",hw:"vs",m:11,fm:10,pts:8,ast:4,reb:2,fgm:4,fga:5,fgp:80.0,min:10.03,base:11.67,ab:2.26,mb:9.96,fb:46.1},{d:"10/24",opp:"MIN",hw:"vs",m:14,fm:18,pts:11,ast:2,reb:5,fgm:4,fga:7,fgp:57.1,min:8.98,base:12.67,ab:2.26,mb:9.96,fb:46.1},{d:"10/31",opp:"MEM",hw:"@",m:2,fm:5,pts:9,ast:1,reb:3,fgm:3,fga:7,fgp:42.9,min:8.37,base:11.67,ab:2.26,mb:9.96,fb:46.1},{d:"11/02",opp:"MIA",hw:"vs",m:4,fm:10,pts:9,ast:0,reb:2,fgm:3,fga:6,fgp:50.0,min:9.33,base:6.67,ab:2.26,mb:9.96,fb:46.1},{d:"11/05",opp:"SAS",hw:"vs",m:8,fm:2,pts:8,ast:3,reb:1,fgm:2,fga:4,fgp:50.0,min:9.67,base:9.0,ab:2.26,mb:9.96,fb:46.1},{d:"11/10",opp:"CHO",hw:"@",m:18,fm:10,pts:7,ast:1,reb:2,fgm:2,fga:6,fgp:33.3,min:9.1,base:10.33,ab:2.26,mb:9.96,fb:46.1},{d:"11/14",opp:"NOP",hw:"@",m:18,fm:14,pts:2,ast:2,reb:1,fgm:1,fga:3,fgp:33.3,min:8.97,base:7.33,ab:2.26,mb:9.96,fb:46.1},{d:"11/18",opp:"UTA",hw:"vs",m:11,fm:14,pts:0,ast:1,reb:1,fgm:0,fga:1,fgp:0.0,min:3.1,base:12.33,ab:2.26,mb:9.96,fb:46.1},{d:"11/23",opp:"UTA",hw:"@",m:3,fm:2,pts:8,ast:1,reb:6,fgm:2,fga:4,fgp:50.0,min:8.93,base:8.33,ab:2.26,mb:9.96,fb:46.1},{d:"11/28",opp:"DAL",hw:"vs",m:4,fm:10,pts:5,ast:3,reb:3,fgm:0,fga:3,fgp:0.0,min:8.78,base:10.0,ab:2.26,mb:9.96,fb:46.1},{d:"12/07",opp:"PHI",hw:"@",m:3,fm:4,pts:4,ast:3,reb:1,fgm:1,fga:4,fgp:25.0,min:7.35,base:9.0,ab:2.26,mb:9.96,fb:46.1},{d:"12/10",opp:"SAS",hw:"vs",m:17,fm:13,pts:4,ast:2,reb:0,fgm:1,fga:3,fgp:33.3,min:8.72,base:10.33,ab:2.26,mb:9.96,fb:46.1},{d:"12/14",opp:"PHO",hw:"@",m:9,fm:2,pts:3,ast:1,reb:0,fgm:1,fga:3,fgp:33.3,min:7.32,base:8.67,ab:2.26,mb:9.96,fb:46.1},{d:"12/18",opp:"UTA",hw:"@",m:4,fm:8,pts:10,ast:3,reb:4,fgm:3,fga:4,fgp:75.0,min:8.07,base:11.67,ab:2.26,mb:9.96,fb:46.1},{d:"11/25",opp:"LAC",hw:"vs",m:5,fm:17,pts:4,ast:2,reb:1,fgm:0,fga:2,fgp:0.0,min:6.6,base:13.0,ab:2.26,mb:9.96,fb:46.1},{d:"01/04",opp:"MEM",hw:"vs",m:4,fm:6,pts:10,ast:2,reb:3,fgm:3,fga:4,fgp:75.0,min:7.83,base:8.67,ab:2.26,mb:9.96,fb:46.1},{d:"01/06",opp:"NOP",hw:"@",m:7,fm:8,pts:8,ast:2,reb:0,fgm:2,fga:3,fgp:66.7,min:8.3,base:7.33,ab:2.26,mb:9.96,fb:46.1},{d:"01/07",opp:"SAS",hw:"@",m:11,fm:16,pts:5,ast:2,reb:2,fgm:2,fga:5,fgp:40.0,min:7.4,base:11.0,ab:2.26,mb:9.96,fb:46.1},{d:"01/20",opp:"DEN",hw:"@",m:2,fm:8,pts:6,ast:3,reb:3,fgm:0,fga:2,fgp:0.0,min:9.13,base:10.67,ab:2.26,mb:9.96,fb:46.1},{d:"01/22",opp:"LAC",hw:"@",m:14,fm:8,pts:6,ast:1,reb:3,fgm:2,fga:4,fgp:50.0,min:7.67,base:8.67,ab:2.26,mb:9.96,fb:46.1},{d:"01/24",opp:"DAL",hw:"@",m:8,fm:6,pts:9,ast:2,reb:1,fgm:2,fga:4,fgp:50.0,min:11.3,base:8.0,ab:2.26,mb:9.96,fb:46.1},{d:"01/26",opp:"CHI",hw:"@",m:15,fm:11,pts:9,ast:1,reb:1,fgm:3,fga:6,fgp:50.0,min:6.77,base:12.33,ab:2.26,mb:9.96,fb:46.1},{d:"02/01",opp:"NYK",hw:"@",m:8,fm:12,pts:3,ast:2,reb:3,fgm:1,fga:4,fgp:25.0,min:7.7,base:9.0,ab:2.26,mb:9.96,fb:46.1},{d:"02/20",opp:"LAC",hw:"vs",m:4,fm:3,pts:12,ast:1,reb:0,fgm:3,fga:6,fgp:50.0,min:8.78,base:8.67,ab:2.26,mb:9.96,fb:46.1},{d:"02/24",opp:"ORL",hw:"vs",m:1,fm:1,pts:5,ast:4,reb:3,fgm:2,fga:5,fgp:40.0,min:7.02,base:5.67,ab:2.26,mb:9.96,fb:46.1},{d:"03/03",opp:"NOP",hw:"vs",m:2,fm:9,pts:7,ast:2,reb:4,fgm:2,fga:5,fgp:40.0,min:8.52,base:6.67,ab:2.26,mb:9.96,fb:46.1},{d:"03/08",opp:"NYK",hw:"vs",m:19,fm:13,pts:7,ast:0,reb:3,fgm:3,fga:5,fgp:60.0,min:8.27,base:9.33,ab:2.26,mb:9.96,fb:46.1},{d:"03/10",opp:"MIN",hw:"vs",m:16,fm:14,pts:5,ast:2,reb:1,fgm:2,fga:2,fgp:100.0,min:4.58,base:8.67,ab:2.26,mb:9.96,fb:46.1},{d:"03/12",opp:"CHI",hw:"vs",m:10,fm:12,pts:10,ast:3,reb:1,fgm:3,fga:4,fgp:75.0,min:6.15,base:13.67,ab:2.26,mb:9.96,fb:46.1},{d:"03/14",opp:"DEN",hw:"vs",m:0,fm:2,pts:6,ast:2,reb:0,fgm:1,fga:2,fgp:50.0,min:7.45,base:7.33,ab:2.26,mb:9.96,fb:46.1},{d:"03/18",opp:"HOU",hw:"@",m:3,fm:8,pts:10,ast:3,reb:1,fgm:3,fga:4,fgp:75.0,min:7.87,base:10.0,ab:2.26,mb:9.96,fb:46.1},{d:"03/19",opp:"MIA",hw:"@",m:9,fm:8,pts:20,ast:0,reb:1,fgm:5,fga:6,fgp:83.3,min:7.58,base:13.33,ab:2.26,mb:9.96,fb:46.1},{d:"03/21",opp:"ORL",hw:"@",m:5,fm:1,pts:2,ast:1,reb:1,fgm:1,fga:4,fgp:25.0,min:7.25,base:10.33,ab:2.26,mb:9.96,fb:46.1},{d:"03/23",opp:"DET",hw:"@",m:2,fm:3,pts:4,ast:1,reb:1,fgm:1,fga:5,fgp:20.0,min:7.42,base:9.33,ab:2.26,mb:9.96,fb:46.1},{d:"04/19",opp:"MIN",hw:"vs",m:16,fm:22,pts:6,ast:0,reb:3,fgm:2,fga:4,fgp:50.0,min:8.0,base:10.33,ab:2.26,mb:9.96,fb:46.1},{d:"04/22",opp:"MIN",hw:"vs",m:16,fm:9,pts:3,ast:0,reb:2,fgm:1,fga:5,fgp:20.0,min:9.18,base:9.33,ab:2.26,mb:9.96,fb:46.1},{d:"04/25",opp:"MIN",hw:"@",m:2,fm:12,pts:4,ast:0,reb:2,fgm:1,fga:2,fgp:50.0,min:9.13,base:4.33,ab:2.26,mb:9.96,fb:46.1},{d:"04/27",opp:"MIN",hw:"@",m:10,fm:3,pts:7,ast:1,reb:0,fgm:1,fga:6,fgp:16.7,min:12.0,base:10.33,ab:2.26,mb:9.96,fb:46.1}]
+};
+
+const METRICS = {
+  pts:   {label:"Points delta (Q4 vs per-quarter Q1-Q3 avg)", dk:"pts_delta",   q4k:"avg_pts_q4",   bk:"avg_pts_q1q3",   fmt:v=>v.toFixed(1)},
+  fgpct: {label:"FG% delta",                                  dk:"fgpct_delta", q4k:"avg_fgpct_q4", bk:"avg_fgpct_q1q3", fmt:v=>v.toFixed(1)+"%"},
+  ast:   {label:"Assists delta",                              dk:"ast_delta",   q4k:"avg_ast_q4",   bk:"avg_ast_q1q3",   fmt:v=>v.toFixed(2)},
+  min:   {label:"Minutes delta",                              dk:"min_delta",   q4k:"avg_min_q4",   bk:"avg_min_q1q3",   fmt:v=>v.toFixed(1)}
+};
+
+let currentMetric = 'pts';
+let lbChart = null, drillChart = null;
+let currentList = [];
+let currentEntry = null;
+
+function getDisplayList() {
+  const m = METRICS[currentMetric];
+  const entries = Object.entries(SUMMARY).map(([k,v]) => {
+    const [name,team] = k.split('|');
+    return {key:k, name, team, delta:v[m.dk], q4:v[m.q4k], base:v[m.bk], games:v.games,
+            pts_delta:v.pts_delta, fgpct_delta:v.fgpct_delta, ast_delta:v.ast_delta, min_delta:v.min_delta,
+            avg_pts_q4:v.avg_pts_q4, avg_pts_q1q3:v.avg_pts_q1q3,
+            avg_fgpct_q4:v.avg_fgpct_q4, avg_fgpct_q1q3:v.avg_fgpct_q1q3,
+            avg_ast_q4:v.avg_ast_q4, avg_ast_q1q3:v.avg_ast_q1q3,
+            avg_min_q4:v.avg_min_q4, avg_min_q1q3:v.avg_min_q1q3};
+  });
+  entries.sort((a,b) => b.delta - a.delta);
+  const top = entries.slice(0,10);
+  const bot = entries.slice(-10).reverse();
+  return [...top, ...bot];
+}
+
+function buildLeaderboard() {
+  const m = METRICS[currentMetric];
+  currentList = getDisplayList();
+  const labels = currentList.map(e => `${e.name} (${e.team})`);
+  const vals = currentList.map(e => parseFloat(e.delta.toFixed(2)));
+  const colors = vals.map(v => v >= 0 ? '#1D9E75' : '#E24B4A');
+  const h = Math.max(600, currentList.length * 28 + 100);
+  document.getElementById('lbWrap').style.height = h + 'px';
+  if (lbChart) { lbChart.destroy(); lbChart = null; }
+  lbChart = new Chart(document.getElementById('lbChart'), {
+    type:'bar',
+    data:{labels, datasets:[{data:vals, backgroundColor:colors, borderRadius:2, barPercentage:0.65}]},
+    options:{
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#111',borderColor:'#006b72',borderWidth:1,
+          callbacks:{
+            label:ctx => {
+              const e = currentList[ctx.dataIndex];
+              return [`Delta: ${m.fmt(e.delta)}`,`Q4: ${m.fmt(e.q4)}  |  Q1-Q3 avg: ${m.fmt(e.base)}`,`Games: ${e.games}`];
+            }
+          }
+        }
+      },
+      scales:{
+        x:{grid:{color:'rgba(0,107,114,0.12)'},ticks:{color:'#666',font:{size:11,family:"'DM Mono',monospace"}},title:{display:true,text:m.label,color:'#666',font:{size:11}}},
+        y:{ticks:{color:'#a0a0a0',font:{size:11,family:"'DM Sans',sans-serif"}}}
+      },
+      onClick:(evt,els) => { if(els.length) openDrill(currentList[els[0].index]); }
+    }
+  });
+}
+
+function openDrill(entry) {
+  currentEntry = entry;
+  document.getElementById('lbView').style.display = 'none';
+  document.getElementById('drillView').style.display = 'block';
+  document.getElementById('drillName').textContent = `${entry.name} — ${entry.team}`;
+  const d = entry.pts_delta >= 0 ? '+' : '';
+  document.getElementById('drillMeta').textContent =
+    `${entry.games} close games  ·  Points delta: ${d}${entry.pts_delta.toFixed(2)}  ·  FG% delta: ${entry.fgpct_delta >= 0 ? '+' : ''}${entry.fgpct_delta.toFixed(1)}%  ·  Min delta: ${entry.min_delta >= 0 ? '+' : ''}${entry.min_delta.toFixed(1)}`;
+
+  const m = METRICS[currentMetric];
+  const delta = entry[m.dk];
+  const q4val = entry[m.q4k];
+  const baseval = entry[m.bk];
+  const cls = delta >= 0 ? 'val-clutch' : 'val-fader';
+  const sign = delta >= 0 ? '+' : '';
+  document.getElementById('drillStats').innerHTML = `
+    <div class="stat-card"><div class="stat-card-label">Q4 avg</div><div class="stat-card-val ${cls}">${m.fmt(q4val)}</div><div class="stat-card-sub">vs ${m.fmt(baseval)} Q1-Q3/q</div></div>
+    <div class="stat-card"><div class="stat-card-label">${m.label.split(' ')[0]} delta</div><div class="stat-card-val ${cls}">${sign}${m.fmt(delta)}</div><div class="stat-card-sub">Q4 vs Q1-Q3/q</div></div>
+    <div class="stat-card"><div class="stat-card-label">Pts delta</div><div class="stat-card-val ${entry.pts_delta >= 0 ? 'val-clutch':'val-fader'}">${entry.pts_delta >= 0?'+':''}${entry.pts_delta.toFixed(2)}</div><div class="stat-card-sub">per quarter</div></div>
+    <div class="stat-card"><div class="stat-card-label">FG% delta</div><div class="stat-card-val ${entry.fgpct_delta >= 0 ? 'val-clutch':'val-fader'}">${entry.fgpct_delta >= 0 ? '+' : ''}${entry.fgpct_delta.toFixed(1)}%</div><div class="stat-card-sub">Q4 vs Q1-Q3</div></div>
+    <div class="stat-card"><div class="stat-card-label">Min delta</div><div class="stat-card-val ${entry.min_delta >= 0 ? 'val-clutch':'val-fader'}">${entry.min_delta >= 0 ? '+' : ''}${entry.min_delta.toFixed(1)}</div><div class="stat-card-sub">Q4 vs Q1-Q3/q</div></div>
+    <div class="stat-card"><div class="stat-card-label">Close games</div><div class="stat-card-val val-neutral">${entry.games}</div><div class="stat-card-sub">qualifying appearances</div></div>
+  `;
+
+  buildDrill(entry);
+}
+
+function buildDrill(entry) {
+  const ex1 = document.getElementById('chkB1').checked;
+  const ex2 = document.getElementById('chkB2').checked;
+  let games = (GAME_LOG[entry.key] || []).filter(g => g.min > 0);
+  if (ex1) games = games.filter(g => g.m <= 15);
+  if (ex2) games = games.filter(g => g.fm <= 20);
+
+  const hasLog = games.length > 0;
+  const wrap = document.getElementById('drillWrap');
+  const noLog = document.getElementById('drillNoLog');
+  if (!hasLog) {
+    wrap.style.display = 'none';
+    noLog.style.display = 'block';
+    document.getElementById('drillNote').textContent = '';
+    if (drillChart) { drillChart.destroy(); drillChart = null; }
+    return;
+  }
+
+  // Pick the right per-game field and baseline for the selected metric
+  const metricChart = {
+    pts:   { q4: g => g.pts, base: g => entry.avg_pts_q1q3,          label: 'Points',  },
+    fgpct: { q4: g => g.fgp, base: g => g.fb != null ? g.fb : null,  label: 'FG%',     },
+    ast:   { q4: g => g.ast, base: g => g.ab != null ? g.ab : null,  label: 'Assists',  },
+    min:   { q4: g => g.min, base: g => g.mb != null ? g.mb : null,  label: 'Minutes',  },
+  };
+  const mc = metricChart[currentMetric] || metricChart.pts;
+  const q4vals = games.map(g => mc.q4(g));
+  const basevals = games.map(g => mc.base(g));
+  const yLabel = mc.label;
+
+  wrap.style.display = 'block';
+  wrap.style.height = '300px';
+  noLog.style.display = 'none';
+  document.getElementById('drillNote').textContent = `${games.length} games shown. Hover each bar for full Q4 stats.`;
+  const labelEl = document.getElementById('drillChartMetricLabel');
+  if (labelEl) labelEl.textContent = mc.label;
+  const legendEl = document.getElementById('drillLegendMetric');
+  if (legendEl) legendEl.textContent = mc.label.toLowerCase();
+
+  const labels = games.map(g => `${g.d} ${g.hw}${g.opp}`);
+
+  if (drillChart) { drillChart.destroy(); drillChart = null; }
+  wrap.innerHTML = '<canvas id="drillChart" style="width:100%;height:300px;"></canvas>';
+  drillChart = new Chart(document.getElementById('drillChart'), {
+    type:'bar',
+    data:{
+      labels,
+      datasets:[
+        {label:'Q4', data:q4vals, backgroundColor:'#378ADD', borderRadius:2, barPercentage:0.6, order:2},
+        {label:'Q1-Q3 avg', data:basevals, type:'line', borderColor:'rgba(136,135,128,0.7)', borderDash:[4,3], borderWidth:1.5, pointRadius:0, fill:false, order:1}
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'#111', borderColor:'#006b72', borderWidth:1,
+          callbacks:{
+            title:ctx => { const g = games[ctx[0].dataIndex]; return `${g.d} ${g.hw} ${g.opp}`; },
+            label:ctx => {
+              const g = games[ctx.dataIndex];
+              return [
+                `Q4: ${g.pts}pts, ${g.ast}ast, ${g.reb}reb`,
+                `FG: ${g.fgm}/${g.fga}${g.fgp!=null?' ('+g.fgp.toFixed(0)+'%)':''}`,
+                `Min: ${g.min.toFixed(1)}  |  Margin entering Q4: ${g.m}`,
+                `Q1-Q3 avg pts/q: ${g.base.toFixed(1)}`
+              ];
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ticks:{color:'#666',font:{size:10,family:"'DM Sans',sans-serif"},maxRotation:55,autoSkip:true,maxTicksLimit:18},grid:{color:'rgba(0,107,114,0.08)'}},
+        y:{grid:{color:'rgba(0,107,114,0.08)'},ticks:{color:'#666',font:{size:11,family:"'DM Mono',monospace"}},title:{display:true,text:yLabel,color:'#666',font:{size:11}}}
+      }
+    }
+  });
+}
+
+document.getElementById('metricSel').addEventListener('change', e => {
+  currentMetric = e.target.value;
+  if (document.getElementById('drillView').style.display !== 'none') {
+    if (currentEntry) openDrill(currentEntry);
+  } else {
+    buildLeaderboard();
+  }
+});
+['chkB1','chkB2'].forEach(id => document.getElementById(id).addEventListener('change', () => {
+  if (document.getElementById('lbView').style.display !== 'none') buildLeaderboard();
+  else if (currentEntry) buildDrill(currentEntry);
+}));
+document.getElementById('backBtn').addEventListener('click', () => {
+  document.getElementById('drillView').style.display='none';
+  document.getElementById('lbView').style.display='block';
+});
+
+buildLeaderboard();
+</script>
+</body>
+</html>

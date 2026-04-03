@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Charts — Fine Print Analytics</title>
+<meta name="description" content="Interactive data visualizations and research from Fine Print Analytics."/>
+<meta property="og:title" content="Charts | Fine Print Analytics"/>
+<meta property="og:description" content="Interactive data visualizations and research from Fine Print Analytics."/>
+<meta property="og:url" content="https://fineprintanalytics.github.io/charts.html"/>
+<link rel="canonical" href="https://fineprintanalytics.github.io/charts.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C6602NT50R"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-C6602NT50R');</script>
+<style>
+:root{--bg-dark:#0a0a0a;--bg-card:rgba(12,12,12,0.92);--grid-line:rgba(212,175,55,0.08);--teal-primary:#006b72;--teal-light:#00979f;--teal-glow:rgba(0,107,114,0.35);--maroon-primary:#862633;--maroon-glow:rgba(134,38,51,0.3);--gold-accent:#d4af37;--gold-dim:rgba(212,175,55,0.12);--gold-glow:rgba(212,175,55,0.2);--text-main:#e0e0e0;--text-mid:#a0a0a0;--text-dim:#666666;--border-teal:rgba(0,107,114,0.35);--border-gold:rgba(212,175,55,0.25);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background-color:var(--bg-dark);background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:50px 50px;color:var(--text-main);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+header{border-bottom:1px solid var(--border-teal);padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.96);backdrop-filter:blur(16px);}
+.brand-rule{width:28px;height:1px;background:var(--gold-accent);margin-bottom:5px;}
+.brand{font-size:0.62rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:var(--text-dim);}
+nav{display:flex;gap:0.15rem;flex-wrap:wrap;}
+nav a{color:var(--text-dim);text-decoration:none;font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border-radius:3px;transition:color 0.2s,background 0.2s;}
+nav a:hover{color:var(--text-main);background:rgba(255,255,255,0.04);}
+nav a.active{color:var(--gold-accent);}
+footer{border-top:1px solid rgba(0,107,114,0.12);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem;}
+.footer-brand{font-size:0.6rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.footer-links a{font-size:0.72rem;color:var(--text-dim);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--teal-light);}
+
+.page-wrap{max-width:1100px;margin:0 auto;padding:4rem 2.5rem 2rem;}
+.page-eyebrow{font-size:0.62rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal-light);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;}
+.page-eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--teal-light);}
+.page-title{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--text-main);line-height:1.15;margin-bottom:1rem;}
+.page-desc{font-size:0.92rem;color:var(--text-mid);max-width:580px;line-height:1.8;font-weight:300;margin-bottom:3rem;}
+
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.5px;}
+.chart-card{background:var(--bg-card);border:1px solid var(--border-teal);padding:2rem 2.25rem;text-decoration:none;color:inherit;display:block;position:relative;overflow:hidden;transition:border-color 0.3s,box-shadow 0.3s;}
+.chart-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--teal-primary),transparent);opacity:0;transition:opacity 0.3s;}
+.chart-card:hover{border-color:var(--gold-accent);box-shadow:0 0 35px var(--gold-glow);}
+.chart-card:hover::after{opacity:1;}
+.chart-card-sport{font-size:0.58rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--teal-light);margin-bottom:0.75rem;}
+.chart-card-title{font-family:'Playfair Display',serif;font-size:1.35rem;font-weight:700;color:var(--text-main);margin-bottom:0.6rem;line-height:1.2;}
+.chart-card-desc{font-size:0.8rem;color:var(--text-dim);line-height:1.7;font-weight:300;margin-bottom:1.25rem;}
+.chart-card-meta{font-size:0.7rem;font-family:'DM Mono',monospace;color:var(--text-dim);display:flex;gap:1.25rem;flex-wrap:wrap;}
+.chart-card-arrow{position:absolute;bottom:1.75rem;right:1.75rem;font-size:1rem;color:var(--border-teal);transition:color 0.2s,transform 0.2s;}
+.chart-card:hover .chart-card-arrow{color:var(--gold-accent);transform:translateX(3px);}
+
+@media(max-width:640px){
+  header{padding:1rem 1.25rem;}
+  .page-wrap{padding:2.5rem 1.25rem;}
+  .page-title{font-size:1.8rem;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="brand-rule"></div>
+    <div class="brand">Fine Print Analytics</div>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="nba-record.html">NBA Record</a>
+    <a href="mlb-record.html">MLB Record</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="api.html">API</a>
+    <a href="charts.html" class="active">Charts</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+  <div class="page-eyebrow">Research &amp; Data</div>
+  <h1 class="page-title">Charts</h1>
+  <p class="page-desc">Interactive visualizations built from the Fine Print data pipeline. Each chart is a standalone analysis — explore the data behind the model.</p>
+
+  <div class="charts-grid">
+    <a href="charts-q4-clutch.html" class="chart-card">
+      <div class="chart-card-sport">NBA · Q4 Analysis</div>
+      <div class="chart-card-title">Q4 Performance Index</div>
+      <div class="chart-card-desc">Who elevates and who disappears in close fourth quarters? Two seasons of quarter-level data across every player with 30+ qualifying appearances.</div>
+      <div class="chart-card-meta">
+        <span>2024-25 &amp; 2025-26</span>
+        <span>20 players</span>
+        <span>Close games only</span>
+      </div>
+      <span class="chart-card-arrow">→</span>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Fine Print Analytics</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="nba-record.html">NBA Record</a>
+    <a href="mlb-record.html">MLB Record</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="api.html">API</a>
+    <a href="charts.html">Charts</a>
+    <a href="https://nbafineprint.substack.com" target="_blank">Newsletter</a>
+  </div>
+  <div style="font-size:0.66rem;color:rgba(255,255,255,0.12);">For informational purposes only.</div>
+</footer>
+
+</body>
+</html>
