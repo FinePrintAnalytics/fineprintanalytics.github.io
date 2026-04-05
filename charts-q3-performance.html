@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Q3 Performance Index — Fine Print Analytics</title>
+<meta name="description" content="Which teams dominate the third quarter? Q3 win rate by team, season, home/away, and halftime status."/>
+<meta property="og:title" content="Q3 Performance Index | Fine Print Analytics"/>
+<meta property="og:url" content="https://fineprintanalytics.github.io/charts-q3-performance.html"/>
+<link rel="canonical" href="https://fineprintanalytics.github.io/charts-q3-performance.html"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C6602NT50R"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-C6602NT50R');</script>
+<style>
+:root{--bg-dark:#0a0a0a;--bg-card:rgba(12,12,12,0.92);--grid-line:rgba(212,175,55,0.08);--teal-primary:#006b72;--teal-light:#00979f;--teal-glow:rgba(0,107,114,0.35);--maroon-primary:#862633;--gold-accent:#d4af37;--gold-dim:rgba(212,175,55,0.12);--gold-glow:rgba(212,175,55,0.2);--text-main:#e0e0e0;--text-mid:#a0a0a0;--text-dim:#666666;--border-teal:rgba(0,107,114,0.35);--border-gold:rgba(212,175,55,0.25);--win:#1D9E75;--loss:#E24B4A;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background-color:var(--bg-dark);background-image:linear-gradient(var(--grid-line) 1px,transparent 1px),linear-gradient(90deg,var(--grid-line) 1px,transparent 1px);background-size:50px 50px;color:var(--text-main);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;min-height:100vh;-webkit-font-smoothing:antialiased;}
+header{border-bottom:1px solid var(--border-teal);padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;position:sticky;top:0;z-index:100;background:rgba(10,10,10,0.96);backdrop-filter:blur(16px);}
+.brand-rule{width:28px;height:1px;background:var(--gold-accent);margin-bottom:5px;}
+.brand{font-size:0.62rem;font-weight:600;letter-spacing:0.24em;text-transform:uppercase;color:var(--text-dim);}
+nav{display:flex;gap:0.15rem;flex-wrap:wrap;}
+nav a{color:var(--text-dim);text-decoration:none;font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:0.4rem 0.9rem;border-radius:3px;transition:color 0.2s,background 0.2s;}
+nav a:hover{color:var(--text-main);background:rgba(255,255,255,0.04);}
+nav a.active{color:var(--gold-accent);}
+footer{border-top:1px solid rgba(0,107,114,0.12);padding:2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-top:4rem;}
+.footer-brand{font-size:0.6rem;font-weight:600;letter-spacing:0.22em;text-transform:uppercase;color:var(--text-dim);}
+.footer-links{display:flex;gap:1.5rem;flex-wrap:wrap;}
+.footer-links a{font-size:0.72rem;color:var(--text-dim);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--teal-light);}
+.page-wrap{max-width:1100px;margin:0 auto;padding:3rem 2.5rem 2rem;}
+.page-eyebrow{font-size:0.62rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--teal-light);margin-bottom:1.25rem;display:flex;align-items:center;gap:0.75rem;}
+.page-eyebrow::before{content:'';display:inline-block;width:28px;height:1px;background:var(--teal-light);}
+.page-title{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--text-main);line-height:1.15;margin-bottom:1rem;}
+.page-meta{font-size:0.75rem;color:var(--text-dim);font-family:'DM Mono',monospace;margin-bottom:1rem;}
+.page-desc{font-size:0.92rem;color:var(--text-mid);max-width:680px;line-height:1.8;font-weight:300;margin-bottom:2rem;}
+.methodology{background:var(--bg-card);border:1px solid var(--border-teal);border-left:3px solid var(--teal-primary);padding:1.25rem 1.5rem;margin-bottom:2rem;font-size:0.8rem;color:var(--text-mid);line-height:1.75;}
+.methodology strong{color:var(--text-main);font-weight:500;}
+.findings-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5px;margin-bottom:2.5rem;}
+.finding-card{background:var(--bg-card);border:1px solid var(--border-teal);padding:1.5rem;}
+.finding-eyebrow{font-size:0.6rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.75rem;}
+.finding-stat{font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--gold-accent);line-height:1;margin-bottom:0.5rem;}
+.finding-desc{font-size:0.8rem;color:var(--text-dim);line-height:1.7;font-weight:300;}
+.controls-bar{display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-bottom:1.5rem;padding:1rem 1.25rem;background:var(--bg-card);border:1px solid var(--border-teal);}
+.ctrl-group{display:flex;align-items:center;gap:8px;}
+.ctrl-label{font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);}
+select{background:rgba(255,255,255,0.04);color:var(--text-main);border:1px solid var(--border-teal);font-size:0.8rem;font-family:'DM Sans',sans-serif;padding:6px 10px;border-radius:3px;outline:none;cursor:pointer;}
+select:hover{border-color:var(--teal-light);}
+.divider{width:1px;height:24px;background:var(--border-teal);}
+.check-item{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--text-dim);cursor:pointer;}
+.check-item input{accent-color:var(--teal-primary);cursor:pointer;}
+.chart-section{background:var(--bg-card);border:1px solid var(--border-teal);padding:1.5rem;}
+.chart-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:0.5rem;margin-bottom:1rem;}
+.chart-title-main{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text-main);}
+.chart-subtitle{font-size:0.75rem;color:var(--text-dim);margin-top:2px;}
+.legend{display:flex;gap:20px;flex-wrap:wrap;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:0.75rem;color:var(--text-dim);}
+.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.chart-wrap{position:relative;width:100%;}
+.note{font-size:0.72rem;color:var(--text-dim);margin-top:0.75rem;line-height:1.6;}
+.note a{color:var(--teal-light);text-decoration:none;}
+.note a:hover{text-decoration:underline;}
+.drill-section{background:var(--bg-card);border:1px solid var(--border-teal);padding:1.5rem;margin-top:1.5rem;display:none;}
+.drill-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;}
+.drill-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--text-main);}
+.drill-back{background:none;border:none;color:var(--text-dim);font-size:0.75rem;font-family:'DM Sans',sans-serif;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;padding:0;transition:color 0.2s;}
+.drill-back:hover{color:var(--teal-light);}
+.hm-grid{display:grid;gap:3px;}
+.hm-cell{border-radius:3px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'DM Mono',monospace;}
+.hm-label{font-size:0.75rem;color:var(--text-mid);text-align:right;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;white-space:nowrap;}
+.hm-season-hdr{font-size:0.68rem;color:var(--text-dim);text-align:center;padding-bottom:4px;font-family:'DM Mono',monospace;}
+.drill-legend{display:flex;align-items:center;gap:8px;margin-top:1rem;}
+.drill-legend-label{font-size:0.7rem;color:var(--text-dim);}
+@media(max-width:640px){header{padding:1rem 1.25rem;}.page-wrap{padding:2rem 1.25rem;}.page-title{font-size:1.8rem;}.controls-bar{flex-direction:column;align-items:flex-start;}}
+</style>
+</head>
+<body>
+<header>
+  <div><div class="brand-rule"></div><div class="brand">Fine Print Analytics</div></div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="nba-record.html">NBA Record</a>
+    <a href="mlb-record.html">MLB Record</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="api.html">API</a>
+    <a href="charts.html" class="active">Charts</a>
+  </nav>
+</header>
+
+<div class="page-wrap">
+  <div class="page-eyebrow">Research · Q3 Analysis</div>
+  <h1 class="page-title">Q3 Performance Index</h1>
+  <div class="page-meta">2022-23 through 2025-26 seasons · All teams · Q3 win rate by halftime status</div>
+  <p class="page-desc">Which teams dominate the third quarter? We tracked every team's Q3 win rate across four seasons, broken down by halftime status and home/away. The patterns are consistent enough to matter — especially when a team is trailing at the break.</p>
+
+  <div class="methodology">
+    <strong>Methodology:</strong> Q3 win = team scored more points in Q3 than opponent. Q3 win rate = Q3 wins ÷ total games (ties excluded from win/loss denominator). Default view combines home and away, all halftime statuses. Use checkboxes to expand rows. Season dropdown filters the sample. Minimum display: all teams regardless of sample size.
+  </div>
+
+  <div class="findings-grid">
+    <div class="finding-card">
+      <div class="finding-eyebrow">Most consistent Q3 comeback team</div>
+      <div class="finding-stat">75.8%</div>
+      <div class="finding-desc">OKC wins Q3 at home when trailing at halftime at a rate that has held above 68% across all four seasons — including 86.4% in 2022-23. This is a coaching signal, not noise.</div>
+    </div>
+    <div class="finding-card">
+      <div class="finding-eyebrow">Most consistent Q3 collapse</div>
+      <div class="finding-stat">25.7%</div>
+      <div class="finding-desc">Indiana away, leading at half: 11.8% in 22-23, 40.9% in 23-24, 23.8% in 24-25, 21.4% in 25-26. They consistently come out flat in Q3 after road halftime leads.</div>
+    </div>
+    <div class="finding-card">
+      <div class="finding-eyebrow">Worst single-season Q3 mark</div>
+      <div class="finding-stat">14.3%</div>
+      <div class="finding-desc">Washington home, trailing at half, 2024-25: won just 4 of 28 Q3s, -6.0 avg margin. One of the worst single-season Q3 splits in the dataset.</div>
+    </div>
+  </div>
+
+  <div class="controls-bar">
+    <div class="ctrl-group">
+      <span class="ctrl-label">Season</span>
+      <select id="seasonSel">
+        <option value="all">All seasons</option>
+        <option value="2022-23">2022-23</option>
+        <option value="2023-24">2023-24</option>
+        <option value="2024-25">2024-25</option>
+        <option value="2025-26">2025-26</option>
+      </select>
+    </div>
+    <div class="divider"></div>
+    <span class="ctrl-label">Location:</span>
+    <label class="check-item"><input type="checkbox" id="chkHome"> Home</label>
+    <label class="check-item"><input type="checkbox" id="chkAway"> Away</label>
+    <div class="divider"></div>
+    <span class="ctrl-label">Halftime:</span>
+    <label class="check-item"><input type="checkbox" id="chkLeading"> Leading</label>
+    <label class="check-item"><input type="checkbox" id="chkTrailing"> Trailing</label>
+    <label class="check-item"><input type="checkbox" id="chkTied"> Tied</label>
+  </div>
+
+  <div class="chart-section" id="chartSection">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title-main">Q3 Win Rate by Team</div>
+        <div class="chart-subtitle" id="chartSubtitle">All games · sorted by Q3 win rate</div>
+      </div>
+      <div class="legend">
+        <span class="legend-item"><span class="legend-dot" style="background:var(--win);"></span>&gt; 50%</span>
+        <span class="legend-item"><span class="legend-dot" style="background:var(--loss);"></span>&lt; 50%</span>
+      </div>
+    </div>
+    <div class="chart-wrap" id="chartWrap" style="height:800px;"><canvas id="mainChart"></canvas></div>
+    <p class="note" id="chartNote">Ties (equal Q3 scores) excluded from win/loss calculation but included in games total. &nbsp;·&nbsp; <a href="https://nbafineprint.substack.com" target="_blank">Subscribe for picks</a></p>
+  </div>
+
+  <div class="drill-section" id="drillSection">
+    <div class="drill-header">
+      <div class="drill-title" id="drillTitle">Team Drilldown</div>
+      <button class="drill-back" id="drillBack">← Back to all teams</button>
+    </div>
+    <div id="drillGrid"></div>
+    <div class="drill-legend">
+      <span class="drill-legend-label">0%</span>
+      <div id="drillLegend" style="display:flex;gap:3px;"></div>
+      <span class="drill-legend-label">100%</span>
+      <span style="font-size:0.68rem;color:var(--text-dim);margin-left:12px;">n = games · ties excluded from win%</span>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-brand">Fine Print Analytics</div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="nba-record.html">NBA Record</a>
+    <a href="mlb-record.html">MLB Record</a>
+    <a href="how-it-works.html">How It Works</a>
+    <a href="api.html">API</a>
+    <a href="charts.html">Charts</a>
+    <a href="https://nbafineprint.substack.com" target="_blank">Newsletter</a>
+  </div>
+  <div style="font-size:0.66rem;color:rgba(255,255,255,0.12);">For informational purposes only.</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const RAW = [
+["ATL","away","2022-23","Leading",19,8,1,10],["ATL","away","2022-23","Trailing",25,13,1,11],["ATL","away","2022-23","Tied",1,1,0,0],
+["ATL","home","2022-23","Leading",26,11,1,14],["ATL","home","2022-23","Trailing",18,13,1,4],
+["ATL","away","2023-24","Leading",20,5,2,13],["ATL","away","2023-24","Tied",1,1,0,0],["ATL","away","2023-24","Trailing",21,6,2,13],
+["ATL","home","2023-24","Leading",18,10,0,8],["ATL","home","2023-24","Tied",3,0,1,2],["ATL","home","2023-24","Trailing",20,7,3,10],
+["ATL","away","2024-25","Leading",20,7,0,13],["ATL","away","2024-25","Tied",1,0,0,1],["ATL","away","2024-25","Trailing",22,13,1,8],
+["ATL","home","2024-25","Leading",19,7,1,11],["ATL","home","2024-25","Tied",2,1,0,1],["ATL","home","2024-25","Trailing",20,6,3,11],
+["ATL","away","2025-26","Leading",21,7,1,13],["ATL","away","2025-26","Tied",1,1,0,0],["ATL","away","2025-26","Trailing",16,7,0,9],
+["ATL","home","2025-26","Leading",21,10,1,10],["ATL","home","2025-26","Tied",2,1,0,1],["ATL","home","2025-26","Trailing",16,9,0,7],
+["BOS","away","2022-23","Leading",28,15,0,13],["BOS","away","2022-23","Tied",1,1,0,0],["BOS","away","2022-23","Trailing",21,10,2,9],
+["BOS","home","2022-23","Leading",39,21,1,17],["BOS","home","2022-23","Tied",1,1,0,0],["BOS","home","2022-23","Trailing",12,9,1,2],
+["BOS","away","2023-24","Leading",40,21,1,18],["BOS","away","2023-24","Trailing",9,5,0,4],
+["BOS","home","2023-24","Leading",41,26,0,15],["BOS","home","2023-24","Tied",2,1,0,1],["BOS","home","2023-24","Trailing",9,7,0,2],
+["BOS","away","2024-25","Leading",32,20,0,12],["BOS","away","2024-25","Tied",4,2,1,1],["BOS","away","2024-25","Trailing",10,6,0,4],
+["BOS","home","2024-25","Leading",31,19,1,11],["BOS","home","2024-25","Tied",1,1,0,0],["BOS","home","2024-25","Trailing",15,11,3,1],
+["BOS","away","2025-26","Leading",27,12,2,13],["BOS","away","2025-26","Tied",3,0,0,3],["BOS","away","2025-26","Trailing",9,7,1,1],
+["BOS","home","2025-26","Leading",23,9,1,13],["BOS","home","2025-26","Tied",2,2,0,0],["BOS","home","2025-26","Trailing",12,8,0,4],
+["BRK","away","2022-23","Leading",16,5,1,10],["BRK","away","2022-23","Tied",1,0,0,1],["BRK","away","2022-23","Trailing",26,20,0,6],
+["BRK","home","2022-23","Leading",26,8,1,17],["BRK","home","2022-23","Trailing",17,8,3,6],
+["BRK","away","2023-24","Leading",19,6,0,13],["BRK","away","2023-24","Trailing",22,10,1,11],
+["BRK","home","2023-24","Leading",17,8,0,9],["BRK","home","2023-24","Tied",1,0,0,1],["BRK","home","2023-24","Trailing",23,13,2,8],
+["BRK","away","2024-25","Leading",16,4,1,11],["BRK","away","2024-25","Tied",1,1,0,0],["BRK","away","2024-25","Trailing",24,10,0,14],
+["BRK","home","2024-25","Leading",16,6,0,10],["BRK","home","2024-25","Tied",3,0,0,3],["BRK","home","2024-25","Trailing",22,9,0,13],
+["BRK","away","2025-26","Leading",9,3,2,4],["BRK","away","2025-26","Trailing",30,17,0,13],
+["BRK","home","2025-26","Leading",14,3,2,9],["BRK","home","2025-26","Tied",1,1,0,0],["BRK","home","2025-26","Trailing",22,9,2,11],
+["CHI","away","2022-23","Leading",17,5,2,10],["CHI","away","2022-23","Tied",2,1,0,1],["CHI","away","2022-23","Trailing",24,15,1,8],
+["CHI","home","2022-23","Leading",22,9,1,12],["CHI","home","2022-23","Trailing",19,12,1,6],
+["CHI","away","2023-24","Leading",19,7,1,11],["CHI","away","2023-24","Trailing",23,13,0,10],
+["CHI","home","2023-24","Leading",19,10,0,9],["CHI","home","2023-24","Tied",1,0,0,1],["CHI","home","2023-24","Trailing",22,13,2,7],
+["CHI","away","2024-25","Leading",16,7,1,8],["CHI","away","2024-25","Tied",2,0,1,1],["CHI","away","2024-25","Trailing",23,12,0,11],
+["CHI","home","2024-25","Leading",15,7,1,7],["CHI","home","2024-25","Tied",1,0,1,0],["CHI","home","2024-25","Trailing",26,14,1,11],
+["CHI","away","2025-26","Leading",12,3,2,7],["CHI","away","2025-26","Tied",1,0,1,0],["CHI","away","2025-26","Trailing",24,11,4,9],
+["CHI","home","2025-26","Leading",14,7,1,6],["CHI","home","2025-26","Tied",1,0,0,1],["CHI","home","2025-26","Trailing",24,9,1,14],
+["CHO","away","2022-23","Leading",10,5,0,5],["CHO","away","2022-23","Tied",3,1,0,2],["CHO","away","2022-23","Trailing",28,15,2,11],
+["CHO","home","2022-23","Leading",13,6,0,7],["CHO","home","2022-23","Trailing",28,14,2,12],
+["CHO","away","2023-24","Leading",8,0,1,7],["CHO","away","2023-24","Tied",2,1,0,1],["CHO","away","2023-24","Trailing",31,8,0,23],
+["CHO","home","2023-24","Leading",9,3,3,3],["CHO","home","2023-24","Trailing",32,16,2,14],
+["CHO","away","2024-25","Leading",7,0,2,5],["CHO","away","2024-25","Tied",1,1,0,0],["CHO","away","2024-25","Trailing",33,13,2,18],
+["CHO","home","2024-25","Leading",12,4,2,6],["CHO","home","2024-25","Tied",2,1,0,1],["CHO","home","2024-25","Trailing",27,11,3,13],
+["CHO","away","2025-26","Leading",19,13,0,6],["CHO","away","2025-26","Tied",2,1,0,1],["CHO","away","2025-26","Trailing",17,9,1,7],
+["CHO","home","2025-26","Leading",24,13,2,9],["CHO","home","2025-26","Trailing",15,7,1,7],
+["CLE","away","2022-23","Leading",20,9,0,11],["CLE","away","2022-23","Tied",2,0,0,2],["CLE","away","2022-23","Trailing",21,9,1,11],
+["CLE","home","2022-23","Leading",26,12,3,11],["CLE","home","2022-23","Tied",1,1,0,0],["CLE","home","2022-23","Trailing",17,8,1,8],
+["CLE","away","2023-24","Leading",22,10,1,11],["CLE","away","2023-24","Tied",4,4,0,0],["CLE","away","2023-24","Trailing",21,11,0,10],
+["CLE","home","2023-24","Leading",30,10,2,18],["CLE","home","2023-24","Trailing",17,8,1,8],
+["CLE","away","2024-25","Leading",27,11,1,15],["CLE","away","2024-25","Tied",2,2,0,0],["CLE","away","2024-25","Trailing",16,10,0,6],
+["CLE","home","2024-25","Leading",39,18,2,19],["CLE","home","2024-25","Tied",1,0,0,1],["CLE","home","2024-25","Trailing",6,4,0,2],
+["CLE","away","2025-26","Leading",20,9,1,10],["CLE","away","2025-26","Tied",1,0,0,1],["CLE","away","2025-26","Trailing",18,6,3,9],
+["CLE","home","2025-26","Leading",19,14,0,5],["CLE","home","2025-26","Trailing",19,14,0,5],
+["DAL","away","2022-23","Leading",17,7,1,9],["DAL","away","2022-23","Trailing",24,15,0,9],
+["DAL","home","2022-23","Leading",23,7,1,15],["DAL","home","2022-23","Tied",2,2,0,0],["DAL","home","2022-23","Trailing",16,10,0,6],
+["DAL","away","2023-24","Leading",23,13,2,8],["DAL","away","2023-24","Tied",2,1,0,1],["DAL","away","2023-24","Trailing",28,12,2,14],
+["DAL","home","2023-24","Leading",24,8,2,14],["DAL","home","2023-24","Tied",3,1,0,2],["DAL","home","2023-24","Trailing",24,12,0,12],
+["DAL","away","2024-25","Leading",18,5,2,11],["DAL","away","2024-25","Tied",2,1,0,1],["DAL","away","2024-25","Trailing",24,10,1,13],
+["DAL","home","2024-25","Leading",22,14,0,8],["DAL","home","2024-25","Tied",1,1,0,0],["DAL","home","2024-25","Trailing",17,7,0,10],
+["DAL","away","2025-26","Leading",13,5,0,8],["DAL","away","2025-26","Trailing",25,11,2,12],
+["DAL","home","2025-26","Leading",13,5,1,7],["DAL","home","2025-26","Tied",1,1,0,0],["DAL","home","2025-26","Trailing",24,9,3,12],
+["DEN","away","2022-23","Leading",23,7,1,15],["DEN","away","2022-23","Trailing",27,17,0,10],
+["DEN","home","2022-23","Leading",33,20,0,13],["DEN","home","2022-23","Tied",2,2,0,0],["DEN","home","2022-23","Trailing",17,11,0,6],
+["DEN","away","2023-24","Leading",25,9,1,15],["DEN","away","2023-24","Tied",2,2,0,0],["DEN","away","2023-24","Trailing",19,12,0,7],
+["DEN","home","2023-24","Leading",31,15,3,13],["DEN","home","2023-24","Tied",2,2,0,0],["DEN","home","2023-24","Trailing",15,11,0,4],
+["DEN","away","2024-25","Leading",20,11,2,7],["DEN","away","2024-25","Tied",3,1,0,2],["DEN","away","2024-25","Trailing",25,8,0,17],
+["DEN","home","2024-25","Leading",24,16,0,8],["DEN","home","2024-25","Tied",4,2,1,1],["DEN","home","2024-25","Trailing",20,13,4,3],
+["DEN","away","2025-26","Leading",18,7,1,10],["DEN","away","2025-26","Tied",4,0,0,4],["DEN","away","2025-26","Trailing",18,15,0,3],
+["DEN","home","2025-26","Leading",25,12,3,10],["DEN","home","2025-26","Tied",1,0,0,1],["DEN","home","2025-26","Trailing",11,4,1,6],
+["DET","away","2022-23","Leading",13,2,0,11],["DET","away","2022-23","Trailing",28,9,2,17],
+["DET","home","2022-23","Leading",13,5,1,7],["DET","home","2022-23","Tied",1,0,0,1],["DET","home","2022-23","Trailing",27,12,2,13],
+["DET","away","2023-24","Leading",10,4,0,6],["DET","away","2023-24","Tied",1,1,0,0],["DET","away","2023-24","Trailing",31,10,4,17],
+["DET","home","2023-24","Leading",9,2,0,7],["DET","home","2023-24","Tied",2,1,0,1],["DET","home","2023-24","Trailing",29,8,4,17],
+["DET","away","2024-25","Leading",20,14,1,5],["DET","away","2024-25","Tied",2,1,0,1],["DET","away","2024-25","Trailing",22,10,1,11],
+["DET","home","2024-25","Leading",21,8,0,13],["DET","home","2024-25","Tied",2,1,0,1],["DET","home","2024-25","Trailing",21,14,1,6],
+["DET","away","2025-26","Leading",26,15,1,10],["DET","away","2025-26","Trailing",11,6,1,4],
+["DET","home","2025-26","Leading",28,16,1,11],["DET","home","2025-26","Tied",2,0,0,2],["DET","home","2025-26","Trailing",10,4,0,6],
+["GSW","away","2022-23","Leading",22,10,1,11],["GSW","away","2022-23","Trailing",26,8,0,18],
+["GSW","home","2022-23","Leading",30,15,2,13],["GSW","home","2022-23","Trailing",17,11,0,6],
+["GSW","away","2023-24","Leading",28,13,0,15],["GSW","away","2023-24","Tied",1,0,1,0],["GSW","away","2023-24","Trailing",13,9,2,2],
+["GSW","home","2023-24","Leading",21,13,1,7],["GSW","home","2023-24","Tied",3,2,0,1],["GSW","home","2023-24","Trailing",17,8,1,8],
+["GSW","away","2024-25","Leading",24,9,1,14],["GSW","away","2024-25","Tied",1,0,0,1],["GSW","away","2024-25","Trailing",23,14,1,8],
+["GSW","home","2024-25","Leading",19,10,0,9],["GSW","home","2024-25","Tied",1,1,0,0],["GSW","home","2024-25","Trailing",27,15,3,9],
+["GSW","away","2025-26","Leading",20,8,0,12],["GSW","away","2025-26","Trailing",19,9,0,10],
+["GSW","home","2025-26","Leading",20,10,0,10],["GSW","home","2025-26","Trailing",18,9,2,7],
+["HOU","away","2022-23","Leading",10,4,1,5],["HOU","away","2022-23","Trailing",31,13,2,16],
+["HOU","home","2022-23","Leading",20,4,1,15],["HOU","home","2022-23","Tied",1,1,0,0],["HOU","home","2022-23","Trailing",20,9,0,11],
+["HOU","away","2023-24","Leading",11,4,1,6],["HOU","away","2023-24","Tied",3,1,0,2],["HOU","away","2023-24","Trailing",27,12,3,12],
+["HOU","home","2023-24","Leading",27,15,0,12],["HOU","home","2023-24","Trailing",14,10,0,4],
+["HOU","away","2024-25","Leading",28,14,2,12],["HOU","away","2024-25","Tied",1,0,0,1],["HOU","away","2024-25","Trailing",15,12,0,3],
+["HOU","home","2024-25","Leading",25,17,1,7],["HOU","home","2024-25","Tied",2,0,0,2],["HOU","home","2024-25","Trailing",18,10,2,6],
+["HOU","away","2025-26","Leading",21,12,2,7],["HOU","away","2025-26","Tied",2,1,0,1],["HOU","away","2025-26","Trailing",16,10,0,6],
+["HOU","home","2025-26","Leading",22,9,2,11],["HOU","home","2025-26","Trailing",15,12,1,2],
+["IND","away","2022-23","Leading",17,2,0,15],["IND","away","2022-23","Trailing",24,10,1,13],
+["IND","home","2022-23","Leading",17,5,1,11],["IND","home","2022-23","Trailing",24,14,2,8],
+["IND","away","2023-24","Leading",22,9,1,12],["IND","away","2023-24","Tied",2,1,0,1],["IND","away","2023-24","Trailing",27,12,1,14],
+["IND","home","2023-24","Leading",28,17,0,11],["IND","home","2023-24","Tied",1,0,0,1],["IND","home","2023-24","Trailing",20,17,0,3],
+["IND","away","2024-25","Leading",21,5,2,14],["IND","away","2024-25","Tied",3,1,0,2],["IND","away","2024-25","Trailing",29,14,2,13],
+["IND","home","2024-25","Leading",31,17,1,13],["IND","home","2024-25","Tied",3,2,0,1],["IND","home","2024-25","Trailing",18,10,1,7],
+["IND","away","2025-26","Leading",14,3,0,11],["IND","away","2025-26","Trailing",24,7,0,17],
+["IND","home","2025-26","Leading",12,6,0,6],["IND","home","2025-26","Tied",1,0,0,1],["IND","home","2025-26","Trailing",25,10,0,15],
+["LAC","away","2022-23","Leading",21,7,0,14],["LAC","away","2022-23","Tied",2,1,0,1],["LAC","away","2022-23","Trailing",21,11,2,8],
+["LAC","home","2022-23","Leading",14,8,0,6],["LAC","home","2022-23","Tied",4,3,0,1],["LAC","home","2022-23","Trailing",25,18,1,6],
+["LAC","away","2023-24","Leading",26,13,2,11],["LAC","away","2023-24","Tied",3,2,0,1],["LAC","away","2023-24","Trailing",15,7,2,6],
+["LAC","home","2023-24","Leading",25,13,1,11],["LAC","home","2023-24","Trailing",19,9,1,9],
+["LAC","away","2024-25","Leading",18,10,0,8],["LAC","away","2024-25","Tied",1,0,0,1],["LAC","away","2024-25","Trailing",26,15,0,11],
+["LAC","home","2024-25","Leading",27,16,1,10],["LAC","home","2024-25","Tied",3,3,0,0],["LAC","home","2024-25","Trailing",14,10,2,2],
+["LAC","away","2025-26","Leading",17,5,2,10],["LAC","away","2025-26","Tied",1,0,0,1],["LAC","away","2025-26","Trailing",21,12,2,7],
+["LAC","home","2025-26","Leading",24,12,1,11],["LAC","home","2025-26","Tied",1,0,0,1],["LAC","home","2025-26","Trailing",13,8,0,5],
+["LAL","away","2022-23","Leading",18,6,0,12],["LAL","away","2022-23","Tied",3,0,1,2],["LAL","away","2022-23","Trailing",28,17,1,10],
+["LAL","home","2022-23","Leading",29,11,0,18],["LAL","home","2022-23","Tied",2,0,0,2],["LAL","home","2022-23","Trailing",19,12,1,6],
+["LAL","away","2023-24","Leading",19,8,0,11],["LAL","away","2023-24","Tied",1,0,0,1],["LAL","away","2023-24","Trailing",24,8,2,14],
+["LAL","home","2023-24","Leading",26,13,2,11],["LAL","home","2023-24","Tied",1,1,0,0],["LAL","home","2023-24","Trailing",18,11,0,7],
+["LAL","away","2024-25","Leading",21,11,2,8],["LAL","away","2024-25","Tied",1,1,0,0],["LAL","away","2024-25","Trailing",21,7,1,13],
+["LAL","home","2024-25","Leading",31,10,3,18],["LAL","home","2024-25","Tied",1,1,0,0],["LAL","home","2024-25","Trailing",12,8,0,4],
+["LAL","away","2025-26","Leading",14,6,0,8],["LAL","away","2025-26","Tied",3,2,1,0],["LAL","away","2025-26","Trailing",22,11,0,11],
+["LAL","home","2025-26","Leading",21,10,0,11],["LAL","home","2025-26","Tied",1,1,0,0],["LAL","home","2025-26","Trailing",16,6,1,9],
+["MEM","away","2022-23","Leading",23,10,1,12],["MEM","away","2022-23","Trailing",21,12,1,8],
+["MEM","home","2022-23","Leading",36,20,0,16],["MEM","home","2022-23","Trailing",8,5,0,3],
+["MEM","away","2023-24","Leading",14,5,1,8],["MEM","away","2023-24","Trailing",27,15,1,11],
+["MEM","home","2023-24","Leading",15,4,1,10],["MEM","home","2023-24","Tied",2,1,0,1],["MEM","home","2023-24","Trailing",24,8,2,14],
+["MEM","away","2024-25","Leading",15,7,1,7],["MEM","away","2024-25","Tied",1,0,0,1],["MEM","away","2024-25","Trailing",28,15,1,12],
+["MEM","home","2024-25","Leading",26,14,0,12],["MEM","home","2024-25","Trailing",18,11,0,7],
+["MEM","away","2025-26","Leading",14,7,0,7],["MEM","away","2025-26","Tied",1,1,0,0],["MEM","away","2025-26","Trailing",22,12,0,10],
+["MEM","home","2025-26","Leading",15,4,2,9],["MEM","home","2025-26","Tied",3,1,0,2],["MEM","home","2025-26","Trailing",21,14,1,6],
+["MIA","away","2022-23","Leading",23,3,1,19],["MIA","away","2022-23","Tied",1,0,0,1],["MIA","away","2022-23","Trailing",30,13,1,16],
+["MIA","home","2022-23","Leading",29,11,1,17],["MIA","home","2022-23","Tied",2,1,0,1],["MIA","home","2022-23","Trailing",22,13,1,8],
+["MIA","away","2023-24","Leading",21,9,2,10],["MIA","away","2023-24","Tied",1,1,0,0],["MIA","away","2023-24","Trailing",23,13,0,10],
+["MIA","home","2023-24","Leading",26,15,1,10],["MIA","home","2023-24","Tied",3,1,0,2],["MIA","home","2023-24","Trailing",15,7,0,8],
+["MIA","away","2024-25","Leading",28,10,2,16],["MIA","away","2024-25","Tied",1,1,0,0],["MIA","away","2024-25","Trailing",16,3,3,10],
+["MIA","home","2024-25","Leading",21,10,2,9],["MIA","home","2024-25","Tied",4,2,1,1],["MIA","home","2024-25","Trailing",18,6,1,11],
+["MIA","away","2025-26","Leading",18,6,0,12],["MIA","away","2025-26","Tied",1,0,0,1],["MIA","away","2025-26","Trailing",19,9,1,9],
+["MIA","home","2025-26","Leading",25,12,4,9],["MIA","home","2025-26","Tied",1,1,0,0],["MIA","home","2025-26","Trailing",13,8,1,4],
+["MIL","away","2022-23","Leading",25,12,3,10],["MIL","away","2022-23","Tied",2,0,0,2],["MIL","away","2022-23","Trailing",16,9,1,6],
+["MIL","home","2022-23","Leading",29,14,3,12],["MIL","home","2022-23","Tied",2,2,0,0],["MIL","home","2022-23","Trailing",13,7,1,5],
+["MIL","away","2023-24","Leading",16,6,1,9],["MIL","away","2023-24","Tied",2,0,0,2],["MIL","away","2023-24","Trailing",25,13,2,10],
+["MIL","home","2023-24","Leading",32,15,1,16],["MIL","home","2023-24","Trailing",13,7,1,5],
+["MIL","away","2024-25","Leading",23,9,3,11],["MIL","away","2024-25","Tied",2,0,0,2],["MIL","away","2024-25","Trailing",19,9,1,9],
+["MIL","home","2024-25","Leading",28,15,2,11],["MIL","home","2024-25","Trailing",16,10,0,6],
+["MIL","away","2025-26","Leading",15,6,1,8],["MIL","away","2025-26","Trailing",23,7,1,15],
+["MIL","home","2025-26","Leading",15,7,1,7],["MIL","home","2025-26","Trailing",23,10,2,11],
+["MIN","away","2022-23","Leading",25,10,0,15],["MIN","away","2022-23","Tied",1,0,0,1],["MIN","away","2022-23","Trailing",19,8,1,10],
+["MIN","home","2022-23","Leading",23,11,0,12],["MIN","home","2022-23","Tied",1,1,0,0],["MIN","home","2022-23","Trailing",20,11,2,7],
+["MIN","away","2023-24","Leading",23,9,1,13],["MIN","away","2023-24","Tied",2,2,0,0],["MIN","away","2023-24","Trailing",24,16,1,7],
+["MIN","home","2023-24","Leading",28,20,2,6],["MIN","home","2023-24","Trailing",21,16,1,4],
+["MIN","away","2024-25","Leading",24,10,1,13],["MIN","away","2024-25","Tied",3,1,2,0],["MIN","away","2024-25","Trailing",22,10,1,11],
+["MIN","home","2024-25","Leading",26,19,0,7],["MIN","home","2024-25","Tied",1,0,0,1],["MIN","home","2024-25","Trailing",21,14,1,6],
+["MIN","away","2025-26","Leading",19,6,1,12],["MIN","away","2025-26","Tied",3,1,0,2],["MIN","away","2025-26","Trailing",15,8,0,7],
+["MIN","home","2025-26","Leading",20,10,1,9],["MIN","home","2025-26","Tied",1,1,0,0],["MIN","home","2025-26","Trailing",18,10,0,8],
+["NOP","away","2022-23","Leading",22,5,5,12],["NOP","away","2022-23","Tied",2,1,0,1],["NOP","away","2022-23","Trailing",17,8,1,8],
+["NOP","home","2022-23","Leading",23,14,1,8],["NOP","home","2022-23","Tied",1,0,1,0],["NOP","home","2022-23","Trailing",18,11,0,7],
+["NOP","away","2023-24","Leading",28,17,0,11],["NOP","away","2023-24","Tied",2,1,0,1],["NOP","away","2023-24","Trailing",14,7,1,6],
+["NOP","home","2023-24","Leading",29,14,2,13],["NOP","home","2023-24","Tied",1,0,0,1],["NOP","home","2023-24","Trailing",14,4,0,10],
+["NOP","away","2024-25","Leading",8,2,0,6],["NOP","away","2024-25","Tied",2,0,0,2],["NOP","away","2024-25","Trailing",31,8,1,22],
+["NOP","home","2024-25","Leading",19,6,0,13],["NOP","home","2024-25","Tied",3,1,0,2],["NOP","home","2024-25","Trailing",19,12,0,7],
+["NOP","away","2025-26","Leading",13,4,0,9],["NOP","away","2025-26","Trailing",25,9,2,14],
+["NOP","home","2025-26","Leading",18,9,1,8],["NOP","home","2025-26","Tied",2,2,0,0],["NOP","home","2025-26","Trailing",19,9,1,9],
+["NYK","away","2022-23","Leading",24,9,1,14],["NYK","away","2022-23","Tied",1,0,1,0],["NYK","away","2022-23","Trailing",22,13,0,9],
+["NYK","home","2022-23","Leading",31,14,1,16],["NYK","home","2022-23","Trailing",15,7,0,8],
+["NYK","away","2023-24","Leading",19,8,2,9],["NYK","away","2023-24","Tied",1,1,0,0],["NYK","away","2023-24","Trailing",27,16,0,11],
+["NYK","home","2023-24","Leading",25,15,2,8],["NYK","home","2023-24","Tied",2,1,0,1],["NYK","home","2023-24","Trailing",21,12,0,9],
+["NYK","away","2024-25","Leading",23,8,0,15],["NYK","away","2024-25","Tied",3,1,0,2],["NYK","away","2024-25","Trailing",24,15,0,9],
+["NYK","home","2024-25","Leading",34,16,1,17],["NYK","home","2024-25","Tied",1,1,0,0],["NYK","home","2024-25","Trailing",15,9,0,6],
+["NYK","away","2025-26","Leading",18,6,3,9],["NYK","away","2025-26","Trailing",23,8,1,14],
+["NYK","home","2025-26","Leading",23,13,0,10],["NYK","home","2025-26","Trailing",14,9,0,5],
+["OKC","away","2022-23","Leading",18,5,1,12],["OKC","away","2022-23","Tied",2,0,0,2],["OKC","away","2022-23","Trailing",23,12,0,11],
+["OKC","home","2022-23","Leading",16,7,0,9],["OKC","home","2022-23","Tied",3,2,0,1],["OKC","home","2022-23","Trailing",22,19,2,1],
+["OKC","away","2023-24","Leading",26,12,0,14],["OKC","away","2023-24","Tied",1,0,0,1],["OKC","away","2023-24","Trailing",19,9,1,9],
+["OKC","home","2023-24","Leading",29,22,2,5],["OKC","home","2023-24","Tied",1,1,0,0],["OKC","home","2023-24","Trailing",16,11,0,5],
+["OKC","away","2024-25","Leading",32,17,0,15],["OKC","away","2024-25","Tied",1,1,0,0],["OKC","away","2024-25","Trailing",17,12,0,5],
+["OKC","home","2024-25","Leading",41,25,1,15],["OKC","home","2024-25","Trailing",15,11,0,4],
+["OKC","away","2025-26","Leading",29,15,1,13],["OKC","away","2025-26","Trailing",8,5,0,3],
+["OKC","home","2025-26","Leading",27,15,1,11],["OKC","home","2025-26","Trailing",13,9,1,3],
+["ORL","away","2022-23","Leading",15,6,1,8],["ORL","away","2022-23","Tied",2,1,0,1],["ORL","away","2022-23","Trailing",24,9,2,13],
+["ORL","home","2022-23","Leading",21,7,2,12],["ORL","home","2022-23","Tied",2,1,0,1],["ORL","home","2022-23","Trailing",18,8,1,9],
+["ORL","away","2023-24","Leading",21,5,2,14],["ORL","away","2023-24","Tied",1,0,0,1],["ORL","away","2023-24","Trailing",23,7,2,14],
+["ORL","home","2023-24","Leading",28,19,1,8],["ORL","home","2023-24","Trailing",16,10,1,5],
+["ORL","away","2024-25","Leading",18,10,1,7],["ORL","away","2024-25","Tied",4,1,1,2],["ORL","away","2024-25","Trailing",22,8,1,13],
+["ORL","home","2024-25","Leading",21,9,0,12],["ORL","home","2024-25","Tied",3,1,0,2],["ORL","home","2024-25","Trailing",20,11,1,8],
+["ORL","away","2025-26","Leading",19,8,0,11],["ORL","away","2025-26","Tied",1,1,0,0],["ORL","away","2025-26","Trailing",16,5,2,9],
+["ORL","home","2025-26","Leading",17,7,0,10],["ORL","home","2025-26","Tied",3,2,1,0],["ORL","home","2025-26","Trailing",20,10,1,9],
+["PHI","away","2022-23","Leading",19,8,2,9],["PHI","away","2022-23","Tied",2,1,0,1],["PHI","away","2022-23","Trailing",26,13,1,12],
+["PHI","home","2022-23","Leading",23,9,1,13],["PHI","home","2022-23","Trailing",23,17,0,6],
+["PHI","away","2023-24","Leading",23,11,1,11],["PHI","away","2023-24","Trailing",21,10,0,11],
+["PHI","home","2023-24","Leading",28,16,2,10],["PHI","home","2023-24","Tied",1,0,0,1],["PHI","home","2023-24","Trailing",16,11,1,4],
+["PHI","away","2024-25","Leading",13,5,1,7],["PHI","away","2024-25","Tied",2,1,0,1],["PHI","away","2024-25","Trailing",26,12,3,11],
+["PHI","home","2024-25","Leading",18,7,0,11],["PHI","home","2024-25","Tied",1,0,1,0],["PHI","home","2024-25","Trailing",22,10,0,12],
+["PHI","away","2025-26","Leading",21,7,0,14],["PHI","away","2025-26","Tied",1,1,0,0],["PHI","away","2025-26","Trailing",16,8,1,7],
+["PHI","home","2025-26","Leading",23,5,1,17],["PHI","home","2025-26","Tied",1,1,0,0],["PHI","home","2025-26","Trailing",14,5,1,8],
+["PHO","away","2022-23","Leading",24,10,1,13],["PHO","away","2022-23","Trailing",22,13,1,8],
+["PHO","home","2022-23","Leading",26,18,1,7],["PHO","home","2022-23","Tied",1,1,0,0],["PHO","home","2022-23","Trailing",20,13,2,5],
+["PHO","away","2023-24","Leading",25,12,0,13],["PHO","away","2023-24","Tied",2,2,0,0],["PHO","away","2023-24","Trailing",16,7,1,8],
+["PHO","home","2023-24","Leading",25,12,3,10],["PHO","home","2023-24","Trailing",18,15,1,2],
+["PHO","away","2024-25","Leading",21,9,0,12],["PHO","away","2024-25","Tied",1,0,0,1],["PHO","away","2024-25","Trailing",19,7,0,12],
+["PHO","home","2024-25","Leading",21,10,0,11],["PHO","home","2024-25","Tied",3,1,0,2],["PHO","home","2024-25","Trailing",17,8,2,7],
+["PHO","away","2025-26","Leading",20,10,0,10],["PHO","away","2025-26","Trailing",18,8,1,9],
+["PHO","home","2025-26","Leading",19,14,0,5],["PHO","home","2025-26","Tied",2,0,1,1],["PHO","home","2025-26","Trailing",18,11,1,6],
+["POR","away","2022-23","Leading",17,5,1,11],["POR","away","2022-23","Trailing",24,10,1,13],
+["POR","home","2022-23","Leading",18,10,0,8],["POR","home","2022-23","Tied",2,1,0,1],["POR","home","2022-23","Trailing",21,10,0,11],
+["POR","away","2023-24","Leading",11,1,1,9],["POR","away","2023-24","Trailing",30,7,1,22],
+["POR","home","2023-24","Leading",12,3,0,9],["POR","home","2023-24","Trailing",29,16,3,10],
+["POR","away","2024-25","Leading",17,5,1,11],["POR","away","2024-25","Tied",1,0,0,1],["POR","away","2024-25","Trailing",23,11,1,11],
+["POR","home","2024-25","Leading",16,12,0,4],["POR","home","2024-25","Tied",5,2,1,2],["POR","home","2024-25","Trailing",20,9,1,10],
+["POR","away","2025-26","Leading",17,12,2,3],["POR","away","2025-26","Tied",1,1,0,0],["POR","away","2025-26","Trailing",21,11,0,10],
+["POR","home","2025-26","Leading",19,10,0,9],["POR","home","2025-26","Tied",1,0,0,1],["POR","home","2025-26","Trailing",19,9,1,9],
+["SAC","away","2022-23","Leading",20,8,0,12],["SAC","away","2022-23","Tied",1,0,0,1],["SAC","away","2022-23","Trailing",23,14,2,7],
+["SAC","home","2022-23","Leading",25,9,3,13],["SAC","home","2022-23","Tied",2,1,1,0],["SAC","home","2022-23","Trailing",18,10,2,6],
+["SAC","away","2023-24","Leading",20,11,2,7],["SAC","away","2023-24","Tied",1,1,0,0],["SAC","away","2023-24","Trailing",21,9,2,10],
+["SAC","home","2023-24","Leading",28,15,1,12],["SAC","home","2023-24","Trailing",14,7,0,7],
+["SAC","away","2024-25","Leading",16,9,0,7],["SAC","away","2024-25","Tied",1,0,0,1],["SAC","away","2024-25","Trailing",24,15,0,9],
+["SAC","home","2024-25","Leading",20,7,1,12],["SAC","home","2024-25","Tied",2,0,0,2],["SAC","home","2024-25","Trailing",20,10,0,10],
+["SAC","away","2025-26","Leading",11,4,1,6],["SAC","away","2025-26","Tied",1,0,0,1],["SAC","away","2025-26","Trailing",27,11,0,16],
+["SAC","home","2025-26","Leading",12,4,0,8],["SAC","home","2025-26","Tied",1,0,0,1],["SAC","home","2025-26","Trailing",25,13,3,9],
+["SAS","away","2022-23","Leading",11,4,2,5],["SAS","away","2022-23","Tied",2,0,0,2],["SAS","away","2022-23","Trailing",28,10,2,16],
+["SAS","home","2022-23","Leading",17,8,1,8],["SAS","home","2022-23","Tied",1,1,0,0],["SAS","home","2022-23","Trailing",23,8,1,14],
+["SAS","away","2023-24","Leading",9,2,0,7],["SAS","away","2023-24","Trailing",32,12,2,18],
+["SAS","home","2023-24","Leading",20,6,1,13],["SAS","home","2023-24","Tied",2,0,0,2],["SAS","home","2023-24","Trailing",19,8,0,11],
+["SAS","away","2024-25","Leading",16,5,0,11],["SAS","away","2024-25","Tied",2,2,0,0],["SAS","away","2024-25","Trailing",23,13,0,10],
+["SAS","home","2024-25","Leading",18,10,0,8],["SAS","home","2024-25","Tied",3,3,0,0],["SAS","home","2024-25","Trailing",20,14,1,5],
+["SAS","away","2025-26","Leading",29,15,2,12],["SAS","away","2025-26","Trailing",13,8,0,5],
+["SAS","home","2025-26","Leading",26,13,0,13],["SAS","home","2025-26","Tied",1,1,0,0],["SAS","home","2025-26","Trailing",9,6,0,3],
+["TOR","away","2022-23","Leading",16,7,1,8],["TOR","away","2022-23","Tied",3,2,0,1],["TOR","away","2022-23","Trailing",22,13,0,9],
+["TOR","home","2022-23","Leading",29,16,1,12],["TOR","home","2022-23","Trailing",13,5,1,7],
+["TOR","away","2023-24","Leading",15,6,0,9],["TOR","away","2023-24","Trailing",26,12,1,13],
+["TOR","home","2023-24","Leading",18,4,1,13],["TOR","home","2023-24","Tied",1,0,0,1],["TOR","home","2023-24","Trailing",22,10,1,11],
+["TOR","away","2024-25","Leading",16,5,4,7],["TOR","away","2024-25","Tied",3,3,0,0],["TOR","away","2024-25","Trailing",22,7,0,15],
+["TOR","home","2024-25","Leading",20,9,1,10],["TOR","home","2024-25","Tied",1,1,0,0],["TOR","home","2024-25","Trailing",20,9,0,11],
+["TOR","away","2025-26","Leading",18,10,1,7],["TOR","away","2025-26","Trailing",20,11,0,9],
+["TOR","home","2025-26","Leading",22,12,1,9],["TOR","home","2025-26","Trailing",16,11,0,5],
+["UTA","away","2022-23","Leading",17,7,1,9],["UTA","away","2022-23","Tied",1,0,0,1],["UTA","away","2022-23","Trailing",23,12,1,10],
+["UTA","home","2022-23","Leading",18,6,1,11],["UTA","home","2022-23","Tied",1,1,0,0],["UTA","home","2022-23","Trailing",22,17,1,4],
+["UTA","away","2023-24","Leading",11,4,1,6],["UTA","away","2023-24","Trailing",30,12,0,18],
+["UTA","home","2023-24","Leading",15,5,1,9],["UTA","home","2023-24","Tied",2,0,0,2],["UTA","home","2023-24","Trailing",24,16,1,7],
+["UTA","away","2024-25","Leading",10,3,0,7],["UTA","away","2024-25","Tied",2,1,0,1],["UTA","away","2024-25","Trailing",29,9,1,19],
+["UTA","home","2024-25","Leading",13,6,1,6],["UTA","home","2024-25","Tied",1,0,0,1],["UTA","home","2024-25","Trailing",27,11,0,16],
+["UTA","away","2025-26","Leading",9,1,0,8],["UTA","away","2025-26","Tied",2,2,0,0],["UTA","away","2025-26","Trailing",26,13,4,9],
+["UTA","home","2025-26","Leading",19,6,0,13],["UTA","home","2025-26","Trailing",21,11,1,9],
+["WAS","away","2022-23","Leading",16,7,1,8],["WAS","away","2022-23","Trailing",25,13,0,12],
+["WAS","home","2022-23","Leading",24,9,1,14],["WAS","home","2022-23","Tied",3,1,0,2],["WAS","home","2022-23","Trailing",14,6,1,7],
+["WAS","away","2023-24","Leading",15,4,2,9],["WAS","away","2023-24","Trailing",26,8,1,17],
+["WAS","home","2023-24","Leading",12,4,0,8],["WAS","home","2023-24","Tied",1,0,0,1],["WAS","home","2023-24","Trailing",28,8,1,19],
+["WAS","away","2024-25","Leading",11,5,0,6],["WAS","away","2024-25","Tied",2,1,0,1],["WAS","away","2024-25","Trailing",28,9,1,18],
+["WAS","home","2024-25","Leading",12,2,1,9],["WAS","home","2024-25","Tied",1,1,0,0],["WAS","home","2024-25","Trailing",28,4,1,23],
+["WAS","away","2025-26","Leading",8,5,1,2],["WAS","away","2025-26","Trailing",30,12,0,18],
+["WAS","home","2025-26","Leading",12,5,0,7],["WAS","home","2025-26","Trailing",26,9,1,16]
+];
+// columns: [team, home_away, season, halftime_status, games, q3_wins, q3_ties, q3_losses]
+
+let mainChart = null;
+
+function getChecked() {
+  return {
+    home:     document.getElementById('chkHome').checked,
+    away:     document.getElementById('chkAway').checked,
+    leading:  document.getElementById('chkLeading').checked,
+    trailing: document.getElementById('chkTrailing').checked,
+    tied:     document.getElementById('chkTied').checked,
+  };
+}
+
+function aggregate(season, checked) {
+  const haActive = checked.home || checked.away;
+  const htActive = checked.leading || checked.trailing || checked.tied;
+
+  const haSet = new Set([checked.home && 'home', checked.away && 'away'].filter(Boolean));
+  const htSet = new Set([checked.leading && 'Leading', checked.trailing && 'Trailing', checked.tied && 'Tied'].filter(Boolean));
+
+  // Show suffix when that dimension is actively split
+  const haCount = [checked.home, checked.away].filter(Boolean).length;
+  const htCount = [checked.leading, checked.trailing, checked.tied].filter(Boolean).length;
+  const splitHA = haActive;          // any HA box checked = show home/away label
+  const splitHT = htCount > 1;      // multiple HT checked = show status label
+
+  const base = season === 'all' ? RAW : RAW.filter(r => r[2] === season);
+  const filtered = base.filter(r =>
+    (!haActive || haSet.has(r[1])) &&
+    (!htActive || htSet.has(r[3]))
+  );
+
+  const map = {};
+  for (const r of filtered) {
+    const [team, ha, , ht, games, wins, ties, losses] = r;
+    const parts = [team];
+    if (splitHA) parts.push(ha === 'home' ? 'Home' : 'Away');
+    if (splitHT) parts.push(ht);
+    const key = parts.join('|');
+    if (!map[key]) map[key] = {games:0, wins:0, ties:0, losses:0};
+    map[key].games   += games;
+    map[key].wins    += wins;
+    map[key].ties    += ties;
+    map[key].losses  += losses;
+  }
+
+  const rows = Object.entries(map).map(([key, v]) => {
+    const parts = key.split('|');
+    const team = parts[0];
+    const suffix = parts.slice(1).join(', ');
+    const label = suffix ? team + ' (' + suffix + ')' : team;
+    const contested = v.wins + v.losses;
+    const pct = contested > 0 ? Math.round(v.wins / contested * 1000) / 10 : 0;
+    return {label, team, pct, games: v.games, wins: v.wins, ties: v.ties, losses: v.losses};
+  });
+  rows.sort((a, b) => b.pct - a.pct);
+  return rows;
+}
+
+function build() {
+  const season  = document.getElementById('seasonSel').value;
+  const checked = getChecked();
+
+  // No guard needed - unchecked = all data included
+
+  const rows = aggregate(season, checked);
+
+  const h = Math.max(500, rows.length * 22 + 80);
+
+  const labels = rows.map(r => r.label);
+  const vals   = rows.map(r => r.pct);
+  const colors = vals.map(v => v >= 50 ? '#1D9E75' : '#E24B4A');
+
+  const seasonLabel = season === 'all' ? 'All seasons' : season;
+  document.getElementById('chartSubtitle').textContent = seasonLabel + ' · ' + rows.length + ' rows · sorted by Q3 win rate';
+  document.getElementById('chartNote').textContent = rows.length + ' rows shown · Ties excluded from win% calculation · 2022-23 through 2025-26';
+
+  if (mainChart) { try { mainChart.destroy(); } catch(e) {} mainChart = null; }
+  const wrap = document.getElementById('chartWrap');
+  wrap.style.height = h + 'px';
+  wrap.innerHTML = '<canvas id="mainChart"></canvas>';
+  mainChart = new Chart(document.getElementById('mainChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{data: vals, backgroundColor: colors, borderRadius: 2, barPercentage: 0.7}]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {
+          backgroundColor: '#111', borderColor: '#006b72', borderWidth: 1,
+          callbacks: {
+            label: ctx => {
+              const r = rows[ctx.dataIndex];
+              return ['Q3 Win%: ' + r.pct.toFixed(1) + '%', 'W-L-T: ' + r.wins + '-' + r.losses + '-' + r.ties, 'Games: ' + r.games];
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          min: 0, max: 100,
+          grid: {color: 'rgba(0,107,114,0.12)'},
+          ticks: {color: '#666', font: {size: 11, family: "'DM Mono',monospace"}, callback: v => v + '%'},
+          title: {display: true, text: 'Q3 Win Rate (ties excluded)', color: '#666', font: {size: 11}}
+        },
+        y: {ticks: {color: '#a0a0a0', font: {size: 11, family: "'DM Sans',sans-serif"}}}
+      }
+    }
+  });
+}
+
+['chkHome','chkAway','chkLeading','chkTrailing','chkTied'].forEach(id => {
+  document.getElementById(id).addEventListener('change', build);
+});
+document.getElementById('seasonSel').addEventListener('change', build);
+document.getElementById('seasonSel').addEventListener('input', build);
+
+// ── Drilldown ─────────────────────────────────────────────────────────────────
+const SEASONS_DRILL = ['2022-23','2023-24','2024-25','2025-26'];
+const STATUSES_DRILL = ['Leading','Trailing','Tied'];
+const CELL_COLORS = [
+  {min:75,  bg:'#085041', text:'#9FE1CB'},
+  {min:62,  bg:'#1D9E75', text:'#E1F5EE'},
+  {min:50,  bg:'#00979f', text:'#e0e0e0'},
+  {min:38,  bg:'#862633', text:'#e0e0e0'},
+  {min:25,  bg:'#E24B4A', text:'#e0e0e0'},
+  {min:0,   bg:'#6b1010', text:'#e0e0e0'},
+];
+
+function cellColor(pct) {
+  if (pct === null) return {bg:'rgba(255,255,255,0.04)', text:'#666'};
+  for (const c of CELL_COLORS) { if (pct >= c.min) return c; }
+  return CELL_COLORS[CELL_COLORS.length-1];
+}
+
+function buildDrilldown(teamKey) {
+  // Aggregate RAW for this team: all seasons × home+away combined × all statuses
+  const teamRows = RAW.filter(r => r[0] === teamKey);
+  // map[season][status] = {wins, losses, ties, games}
+  const map = {};
+  for (const s of SEASONS_DRILL) {
+    map[s] = {};
+    for (const st of STATUSES_DRILL) map[s][st] = {wins:0,losses:0,ties:0,games:0};
+  }
+  for (const r of teamRows) {
+    const [, , season, status, games, wins, ties, losses] = r;
+    if (map[season] && map[season][status]) {
+      map[season][status].wins   += wins;
+      map[season][status].losses += losses;
+      map[season][status].ties   += ties;
+      map[season][status].games  += games;
+    }
+  }
+
+  const LABEL_W = 80, CELL_W = 110, CELL_H = 58, GAP = 4;
+  const cols = SEASONS_DRILL.length;
+  const totalW = LABEL_W + cols * CELL_W + (cols - 1) * GAP;
+
+  let html = '<div style="display:grid;grid-template-columns:' + LABEL_W + 'px repeat(' + cols + ',' + CELL_W + 'px);gap:' + GAP + 'px;max-width:' + totalW + 'px;">';
+
+  // header row
+  html += '<div></div>';
+  for (const s of SEASONS_DRILL) {
+    html += '<div class="hm-season-hdr">' + s + '</div>';
+  }
+
+  for (const status of STATUSES_DRILL) {
+    // label
+    html += '<div class="hm-label">' + status + '</div>';
+    for (const s of SEASONS_DRILL) {
+      const d = map[s][status];
+      const contested = d.wins + d.losses;
+      const pct = contested > 0 ? Math.round(d.wins / contested * 1000) / 10 : null;
+      const {bg, text} = cellColor(pct);
+      const pctLabel = pct === null ? '—' : pct.toFixed(1) + '%';
+      html += '<div class="hm-cell" style="background:' + bg + ';color:' + text + ';height:' + CELL_H + 'px;" title="' + d.wins + '-' + d.losses + '-' + d.ties + '">'
+        + '<span style="font-size:0.85rem;font-weight:500;">' + pctLabel + '</span>'
+        + (d.games > 0 ? '<span style="font-size:0.65rem;opacity:0.75;">n=' + d.games + '</span>' : '')
+        + '</div>';
+    }
+  }
+  html += '</div>';
+
+  document.getElementById('drillTitle').textContent = teamKey + ' — Q3 win rate by season & halftime status (home + away)';
+  document.getElementById('drillGrid').innerHTML = html;
+  document.getElementById('chartSection').style.display = 'none';
+  document.getElementById('drillSection').style.display = 'block';
+
+  // legend
+  const leg = document.getElementById('drillLegend');
+  if (!leg.children.length) {
+    ['#6b1010','#E24B4A','#862633','#00979f','#1D9E75','#085041'].forEach(c => {
+      const s = document.createElement('div');
+      s.style.cssText = 'width:22px;height:11px;background:' + c + ';border-radius:2px;';
+      leg.appendChild(s);
+    });
+  }
+}
+
+document.getElementById('drillBack').addEventListener('click', () => {
+  document.getElementById('drillSection').style.display = 'none';
+  document.getElementById('chartSection').style.display = 'block';
+});
+
+build();
+
+// onClick added after initial build — stored rows reference via closure
+function buildWithClick() {
+  const season  = document.getElementById('seasonSel').value;
+  const checked = getChecked();
+  const rows = aggregate(season, checked);
+
+  const h = Math.max(500, rows.length * 22 + 80);
+  const labels = rows.map(r => r.label);
+  const vals   = rows.map(r => r.pct);
+  const colors = vals.map(v => v >= 50 ? '#1D9E75' : '#E24B4A');
+
+  const seasonLabel = season === 'all' ? 'All seasons' : season;
+  document.getElementById('chartSubtitle').textContent = seasonLabel + ' · ' + rows.length + ' rows · sorted by Q3 win rate · click any bar to drill down';
+  document.getElementById('chartNote').textContent = rows.length + ' rows shown · Ties excluded from win% calculation · 2022-23 through 2025-26';
+
+  if (mainChart) { try { mainChart.destroy(); } catch(e) {} mainChart = null; }
+  const wrap = document.getElementById('chartWrap');
+  wrap.style.height = h + 'px';
+  wrap.innerHTML = '<canvas id="mainChart"></canvas>';
+  mainChart = new Chart(document.getElementById('mainChart'), {
+    type: 'bar',
+    data: { labels, datasets: [{data: vals, backgroundColor: colors, borderRadius: 2, barPercentage: 0.7}] },
+    options: {
+      indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: {display: false},
+        tooltip: {
+          backgroundColor: '#111', borderColor: '#006b72', borderWidth: 1,
+          callbacks: {
+            label: ctx => {
+              const r = rows[ctx.dataIndex];
+              return ['Q3 Win%: ' + r.pct.toFixed(1) + '%', 'W-L-T: ' + r.wins + '-' + r.losses + '-' + r.ties, 'Games: ' + r.games];
+            }
+          }
+        }
+      },
+      scales: {
+        x: { min:0, max:100, grid:{color:'rgba(0,107,114,0.12)'}, ticks:{color:'#666',font:{size:11,family:"'DM Mono',monospace"},callback:v=>v+'%'}, title:{display:true,text:'Q3 Win Rate (ties excluded)',color:'#666',font:{size:11}} },
+        y: { ticks:{color:'#a0a0a0',font:{size:11,family:"'DM Sans',sans-serif"}} }
+      },
+      onClick: (evt, els) => {
+        if (!els.length) return;
+        const team = rows[els[0].index].team;
+        buildDrilldown(team);
+      }
+    }
+  });
+}
+
+// Replace build with buildWithClick for all controls
+['chkHome','chkAway','chkLeading','chkTrailing','chkTied'].forEach(id => {
+  document.getElementById(id).removeEventListener('change', build);
+  document.getElementById(id).addEventListener('change', buildWithClick);
+});
+document.getElementById('seasonSel').removeEventListener('change', build);
+document.getElementById('seasonSel').removeEventListener('input', build);
+document.getElementById('seasonSel').addEventListener('change', buildWithClick);
+document.getElementById('seasonSel').addEventListener('input', buildWithClick);
+buildWithClick();
+</script>
+</body>
+</html>
