@@ -175,20 +175,11 @@ select:hover{border-color:var(--teal-light);}
       <button class="back-btn" id="backBtn">← Back to leaderboard</button>
       <div class="drill-player" id="drillName"></div>
       <div class="drill-meta" id="drillMeta"></div>
+      <div style="margin-bottom:0.75rem;font-size:0.72rem;color:var(--text-dim);">Q4 avg &nbsp;·&nbsp; Q1-Q3 avg/q &nbsp;·&nbsp; delta</div>
+      <div id="drillSeasons" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:1.25rem;"></div>
+      <div style="margin-bottom:0.6rem;font-size:0.65rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-dim);">Combined (all seasons)</div>
       <div class="stat-cards" id="drillStats"></div>
-      <div class="chart-header">
-        <div>
-          <div class="chart-title-main">Q4 <span id="drillChartMetricLabel">Points</span> — Game by Game</div>
-          <div class="chart-subtitle">Dashed line = season Q1-Q3 avg/quarter for selected metric.</div>
-        </div>
-        <div class="legend">
-          <span class="legend-item"><span class="legend-dot" style="background:#378ADD;"></span>Q4 <span id="drillLegendMetric">points</span></span>
-          <span class="legend-item"><span class="legend-dot" style="background:var(--text-dim);border-radius:50%;"></span>Q1-Q3 avg/quarter</span>
-        </div>
-      </div>
-      <div class="chart-wrap" id="drillWrap" style="height:300px;"></div>
-      <div id="drillNoLog" style="display:none;padding:1rem 0;font-size:0.8rem;color:var(--text-dim);">Game-by-game log available for Anfernee Simons, Kyrie Irving, and Luka Doncic. Summary stats shown above.</div>
-      <p class="note" id="drillNote"></p>
+      <p class="note" style="margin-top:0.75rem;">Close games = &le;15pt margin entering Q4 &nbsp;·&nbsp; <a href="https://nbafineprint.substack.com" target="_blank">Subscribe for picks</a></p>
     </div>
   </div>
 </div>
@@ -302,112 +293,162 @@ function buildLeaderboard() {
   });
 }
 
+const SEASON_DATA = {
+  "Anfernee Simons|POR": [
+    {s:"2022-23",g:50,q4_pts:5.61,b_pts:5.25,q4_ast:1.04,b_ast:1.01,q4_fg:40.6,b_fg:45.2,q4_min:9.59,b_min:8.81},
+    {s:"2023-24",g:31,q4_pts:8.13,b_pts:6.28,q4_ast:0.97,b_ast:1.62,q4_fg:45.4,b_fg:44.7,q4_min:9.85,b_min:9.11},
+    {s:"2024-25",g:44,q4_pts:7.02,b_pts:4.61,q4_ast:1.00,b_ast:1.36,q4_fg:43.4,b_fg:43.6,q4_min:9.01,b_min:8.48}
+  ],
+  "Anthony Davis|LAL": [
+    {s:"2022-23",g:61,q4_pts:5.95,b_pts:6.24,q4_ast:0.52,b_ast:0.79,q4_fg:54.3,b_fg:54.4,q4_min:8.67,b_min:8.99},
+    {s:"2023-24",g:57,q4_pts:5.64,b_pts:6.90,q4_ast:0.53,b_ast:1.05,q4_fg:54.4,b_fg:55.5,q4_min:8.90,b_min:9.80},
+    {s:"2024-25",g:35,q4_pts:5.45,b_pts:7.40,q4_ast:0.52,b_ast:0.91,q4_fg:50.4,b_fg:53.8,q4_min:7.26,b_min:9.51}
+  ],
+  "Austin Reaves|LAL": [
+    {s:"2022-23",g:65,q4_pts:3.97,b_pts:3.51,q4_ast:0.95,b_ast:0.92,q4_fg:55.7,b_fg:51.2,q4_min:8.91,b_min:7.34},
+    {s:"2023-24",g:61,q4_pts:4.03,b_pts:4.08,q4_ast:1.13,b_ast:1.39,q4_fg:46.9,b_fg:46.8,q4_min:8.22,b_min:8.24},
+    {s:"2024-25",g:59,q4_pts:5.53,b_pts:4.95,q4_ast:1.26,b_ast:1.47,q4_fg:43.8,b_fg:44.4,q4_min:9.20,b_min:8.91},
+    {s:"2025-26",g:32,q4_pts:7.87,b_pts:5.88,q4_ast:0.81,b_ast:1.74,q4_fg:54.4,b_fg:48.4,q4_min:9.62,b_min:8.91}
+  ],
+  "Brandon Ingram|TOR": [
+    {s:"2025-26",g:54,q4_pts:3.91,b_pts:6.37,q4_ast:0.66,b_ast:0.96,q4_fg:41.8,b_fg:49.0,q4_min:7.42,b_min:9.15}
+  ],
+  "DeMar DeRozan|SAC": [
+    {s:"2024-25",g:60,q4_pts:7.28,b_pts:4.98,q4_ast:0.72,b_ast:1.26,q4_fg:46.6,b_fg:46.6,q4_min:9.25,b_min:9.14},
+    {s:"2025-26",g:51,q4_pts:5.08,b_pts:5.12,q4_ast:1.08,b_ast:1.08,q4_fg:44.5,b_fg:52.5,q4_min:8.57,b_min:8.43}
+  ],
+  "Desmond Bane|ORL": [
+    {s:"2025-26",g:57,q4_pts:6.53,b_pts:4.90,q4_ast:0.98,b_ast:1.07,q4_fg:46.0,b_fg:49.8,q4_min:10.31,b_min:8.36}
+  ],
+  "Dillon Brooks|PHO": [
+    {s:"2025-26",g:37,q4_pts:4.03,b_pts:5.38,q4_ast:0.46,b_ast:0.43,q4_fg:36.8,b_fg:44.2,q4_min:7.82,b_min:8.18}
+  ],
+  "Donovan Mitchell|CLE": [
+    {s:"2022-23",g:55,q4_pts:7.62,b_pts:7.01,q4_ast:1.02,b_ast:1.21,q4_fg:43.9,b_fg:49.2,q4_min:9.52,b_min:9.14},
+    {s:"2023-24",g:48,q4_pts:7.00,b_pts:7.15,q4_ast:1.13,b_ast:1.60,q4_fg:40.2,b_fg:49.2,q4_min:9.36,b_min:9.23},
+    {s:"2024-25",g:51,q4_pts:7.86,b_pts:6.29,q4_ast:1.22,b_ast:1.27,q4_fg:45.7,b_fg:44.1,q4_min:8.55,b_min:8.28},
+    {s:"2025-26",g:46,q4_pts:8.65,b_pts:6.75,q4_ast:1.61,b_ast:1.30,q4_fg:48.2,b_fg:46.4,q4_min:9.20,b_min:8.51}
+  ],
+  "Jalen Williams|OKC": [
+    {s:"2022-23",g:64,q4_pts:4.19,b_pts:3.35,q4_ast:0.90,b_ast:0.75,q4_fg:53.1,b_fg:50.6,q4_min:8.49,b_min:7.47},
+    {s:"2023-24",g:57,q4_pts:7.30,b_pts:4.31,q4_ast:1.28,b_ast:1.08,q4_fg:55.6,b_fg:50.3,q4_min:9.86,b_min:7.98},
+    {s:"2024-25",g:58,q4_pts:7.30,b_pts:5.23,q4_ast:1.38,b_ast:1.35,q4_fg:49.3,b_fg:45.2,q4_min:10.04,b_min:8.31},
+    {s:"2025-26",g:18,q4_pts:5.41,b_pts:4.15,q4_ast:1.29,b_ast:1.42,q4_fg:46.6,b_fg:44.9,q4_min:8.54,b_min:7.51}
+  ],
+  "James Harden|LAC": [
+    {s:"2023-24",g:54,q4_pts:4.14,b_pts:4.42,q4_ast:2.16,b_ast:2.13,q4_fg:38.8,b_fg:44.1,q4_min:9.58,b_min:9.02},
+    {s:"2024-25",g:56,q4_pts:4.58,b_pts:6.32,q4_ast:1.55,b_ast:2.46,q4_fg:42.4,b_fg:39.4,q4_min:7.31,b_min:9.97},
+    {s:"2025-26",g:32,q4_pts:5.33,b_pts:6.89,q4_ast:1.33,b_ast:2.43,q4_fg:49.0,b_fg:40.7,q4_min:6.79,b_min:9.98}
+  ],
+  "Jayson Tatum|BOS": [
+    {s:"2022-23",g:67,q4_pts:6.57,b_pts:7.48,q4_ast:1.03,b_ast:1.24,q4_fg:43.5,b_fg:46.2,q4_min:8.93,b_min:9.84},
+    {s:"2023-24",g:63,q4_pts:7.03,b_pts:6.59,q4_ast:1.13,b_ast:1.43,q4_fg:40.5,b_fg:46.8,q4_min:9.59,b_min:9.61},
+    {s:"2024-25",g:58,q4_pts:5.41,b_pts:7.17,q4_ast:1.21,b_ast:1.57,q4_fg:42.5,b_fg:44.3,q4_min:7.69,b_min:10.01},
+    {s:"2025-26",g:9,q4_pts:5.89,b_pts:5.11,q4_ast:0.89,b_ast:1.41,q4_fg:34.9,b_fg:41.3,q4_min:7.69,b_min:8.10}
+  ],
+  "Joel Embiid|PHI": [
+    {s:"2022-23",g:59,q4_pts:7.07,b_pts:8.74,q4_ast:0.80,b_ast:1.07,q4_fg:49.2,b_fg:55.1,q4_min:7.77,b_min:9.45},
+    {s:"2023-24",g:33,q4_pts:6.42,b_pts:9.18,q4_ast:1.19,b_ast:1.53,q4_fg:38.3,b_fg:51.6,q4_min:7.16,b_min:9.79},
+    {s:"2024-25",g:13,q4_pts:5.10,b_pts:7.00,q4_ast:1.10,b_ast:1.30,q4_fg:36.7,b_fg:45.9,q4_min:8.18,b_min:8.35},
+    {s:"2025-26",g:31,q4_pts:5.54,b_pts:7.16,q4_ast:0.64,b_ast:1.08,q4_fg:46.2,b_fg:48.7,q4_min:7.18,b_min:8.29}
+  ],
+  "Kristaps Porzingis|BOS": [
+    {s:"2023-24",g:42,q4_pts:3.97,b_pts:5.70,q4_ast:0.47,b_ast:0.49,q4_fg:45.9,b_fg:51.9,q4_min:7.15,b_min:8.27},
+    {s:"2024-25",g:37,q4_pts:3.06,b_pts:4.87,q4_ast:0.33,b_ast:0.50,q4_fg:31.1,b_fg:47.9,q4_min:7.25,b_min:7.55}
+  ],
+  "Kyrie Irving|DAL": [
+    {s:"2022-23",g:16,q4_pts:8.88,b_pts:5.60,q4_ast:1.38,b_ast:1.54,q4_fg:47.9,b_fg:49.0,q4_min:11.20,b_min:8.76},
+    {s:"2023-24",g:55,q4_pts:7.70,b_pts:5.79,q4_ast:1.15,b_ast:1.36,q4_fg:49.2,b_fg:48.1,q4_min:10.24,b_min:9.25},
+    {s:"2024-25",g:33,q4_pts:8.34,b_pts:6.23,q4_ast:1.25,b_ast:1.24,q4_fg:49.7,b_fg:46.5,q4_min:10.06,b_min:9.40}
+  ],
+  "LeBron James|LAL": [
+    {s:"2022-23",g:58,q4_pts:7.59,b_pts:6.60,q4_ast:2.03,b_ast:1.50,q4_fg:47.0,b_fg:51.1,q4_min:9.90,b_min:8.76},
+    {s:"2023-24",g:53,q4_pts:8.08,b_pts:5.98,q4_ast:2.02,b_ast:2.06,q4_fg:51.7,b_fg:52.6,q4_min:10.43,b_min:8.92},
+    {s:"2024-25",g:58,q4_pts:7.67,b_pts:5.74,q4_ast:2.10,b_ast:1.98,q4_fg:49.5,b_fg:51.7,q4_min:9.75,b_min:8.73},
+    {s:"2025-26",g:39,q4_pts:5.64,b_pts:5.01,q4_ast:2.05,b_ast:1.75,q4_fg:47.4,b_fg:52.4,q4_min:9.42,b_min:8.31}
+  ],
+  "Luka Doncic|LAL": [
+    {s:"2024-25",g:21,q4_pts:4.90,b_pts:7.60,q4_ast:1.24,b_ast:2.11,q4_fg:41.0,b_fg:42.3,q4_min:7.81,b_min:9.75},
+    {s:"2025-26",g:40,q4_pts:6.03,b_pts:9.79,q4_ast:1.72,b_ast:2.32,q4_fg:43.7,b_fg:47.8,q4_min:7.67,b_min:10.02}
+  ],
+  "Michael Porter Jr.|BRK": [
+    {s:"2025-26",g:33,q4_pts:4.70,b_pts:7.13,q4_ast:0.58,b_ast:0.95,q4_fg:38.4,b_fg:50.6,q4_min:7.78,b_min:8.74}
+  ],
+  "De'Aaron Fox|SAC": [],
+  "Trae Young|ATL": [
+    {s:"2022-23",g:64,q4_pts:5.61,b_pts:6.91,q4_ast:1.66,b_ast:2.77,q4_fg:37.0,b_fg:43.7,q4_min:7.62,b_min:9.25},
+    {s:"2023-24",g:41,q4_pts:8.08,b_pts:6.28,q4_ast:2.60,b_ast:2.83,q4_fg:42.5,b_fg:44.8,q4_min:10.00,b_min:8.90},
+    {s:"2024-25",g:57,q4_pts:7.54,b_pts:5.88,q4_ast:3.07,b_ast:2.90,q4_fg:38.4,b_fg:41.5,q4_min:9.64,b_min:8.98},
+    {s:"2025-26",g:8,q4_pts:6.17,b_pts:5.41,q4_ast:2.33,b_ast:2.73,q4_fg:43.5,b_fg:41.9,q4_min:7.77,b_min:7.56}
+  ],
+  "Trey Murphy III|NOP": [
+    {s:"2022-23",g:59,q4_pts:3.53,b_pts:3.51,q4_ast:0.35,b_ast:0.35,q4_fg:50.8,b_fg:45.6,q4_min:7.73,b_min:7.96},
+    {s:"2023-24",g:41,q4_pts:3.49,b_pts:3.75,q4_ast:0.37,b_ast:0.61,q4_fg:53.5,b_fg:42.7,q4_min:7.77,b_min:8.00},
+    {s:"2024-25",g:37,q4_pts:4.14,b_pts:6.18,q4_ast:0.66,b_ast:0.95,q4_fg:42.9,b_fg:46.6,q4_min:8.62,b_min:9.33},
+    {s:"2025-26",g:51,q4_pts:4.30,b_pts:5.83,q4_ast:0.78,b_ast:1.03,q4_fg:42.1,b_fg:47.7,q4_min:8.38,b_min:9.15}
+  ]
+};
+
+function statRow(label, q4val, baseval, fmt, suffix) {
+  const delta = q4val - baseval;
+  const pos = delta >= 0;
+  const sign = pos ? '+' : '';
+  const chipCls = pos ? 'background:#0a2e22;color:#5DCAA5' : 'background:#2e0a0a;color:#F09595';
+  return '<div style="display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid rgba(0,107,114,0.15);">'
+    + '<span style="font-size:0.75rem;color:var(--text-dim);">' + label + '</span>'
+    + '<div style="display:flex;align-items:baseline;gap:10px;">'
+    + '<span style="font-size:0.72rem;color:var(--text-mid);font-family:monospace;">' + fmt(baseval) + '</span>'
+    + '<span style="font-size:0.9rem;font-weight:500;font-family:monospace;color:var(--text-main);">' + fmt(q4val) + '</span>'
+    + '<span style="font-size:0.68rem;font-weight:600;padding:2px 5px;border-radius:3px;font-family:monospace;' + chipCls + '">' + sign + fmt(delta) + '</span>'
+    + '</div></div>';
+}
+
+function buildSeasonCard(s) {
+  const small = s.g < 20;
+  let html = '<div style="background:rgba(255,255,255,0.03);border:1px solid var(--border-teal);padding:0.9rem 1rem;border-radius:3px;">';
+  html += '<div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;">';
+  html += '<span style="font-size:0.62rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--teal-light);">' + s.s + '</span>';
+  html += '<span style="font-size:0.68rem;font-family:monospace;color:' + (small?'#d4af37':'var(--text-dim)') + ';">n=' + s.g + (small?' ⚠':'') + '</span>';
+  html += '</div>';
+  html += statRow('Points',  s.q4_pts, s.b_pts, v => v.toFixed(1));
+  html += statRow('FG%',     s.q4_fg,  s.b_fg,  v => v.toFixed(1)+'%');
+  html += statRow('Assists', s.q4_ast, s.b_ast,  v => v.toFixed(2));
+  html += '<div style="border-bottom:none;">' + statRow('Minutes', s.q4_min, s.b_min, v => v.toFixed(1)) + '</div>';
+  html += '</div>';
+  return html;
+}
+
 function openDrill(entry) {
   currentEntry = entry;
   document.getElementById('lbView').style.display = 'none';
   document.getElementById('drillView').style.display = 'block';
-  document.getElementById('drillName').textContent = `${entry.name} — ${entry.team}`;
+  document.getElementById('drillName').textContent = entry.name + ' — ' + entry.team;
   const d = entry.pts_delta >= 0 ? '+' : '';
   document.getElementById('drillMeta').textContent =
-    `${entry.games} close games  ·  Points delta: ${d}${entry.pts_delta.toFixed(2)}  ·  FG% delta: ${entry.fgpct_delta >= 0 ? '+' : ''}${entry.fgpct_delta.toFixed(1)}%  ·  Min delta: ${entry.min_delta >= 0 ? '+' : ''}${entry.min_delta.toFixed(1)}`;
+    entry.games + ' close games  ·  Points delta: ' + d + entry.pts_delta.toFixed(2) +
+    '  ·  FG% delta: ' + (entry.fgpct_delta >= 0?'+':'') + entry.fgpct_delta.toFixed(1) + '%' +
+    '  ·  Min delta: ' + (entry.min_delta >= 0?'+':'') + entry.min_delta.toFixed(1);
 
-  const m = METRICS[currentMetric];
-  const delta = entry[m.dk];
-  const q4val = entry[m.q4k];
-  const baseval = entry[m.bk];
-  const cls = delta >= 0 ? 'val-clutch' : 'val-fader';
-  const sign = delta >= 0 ? '+' : '';
-  document.getElementById('drillStats').innerHTML = `
-    <div class="stat-card"><div class="stat-card-label">Q4 avg</div><div class="stat-card-val ${cls}">${m.fmt(q4val)}</div><div class="stat-card-sub">vs ${m.fmt(baseval)} Q1-Q3/q</div></div>
-    <div class="stat-card"><div class="stat-card-label">${m.label.split(' ')[0]} delta</div><div class="stat-card-val ${cls}">${sign}${m.fmt(delta)}</div><div class="stat-card-sub">Q4 vs Q1-Q3/q</div></div>
-    <div class="stat-card"><div class="stat-card-label">Pts delta</div><div class="stat-card-val ${entry.pts_delta >= 0 ? 'val-clutch':'val-fader'}">${entry.pts_delta >= 0?'+':''}${entry.pts_delta.toFixed(2)}</div><div class="stat-card-sub">per quarter</div></div>
-    <div class="stat-card"><div class="stat-card-label">FG% delta</div><div class="stat-card-val ${entry.fgpct_delta >= 0 ? 'val-clutch':'val-fader'}">${entry.fgpct_delta >= 0 ? '+' : ''}${entry.fgpct_delta.toFixed(1)}%</div><div class="stat-card-sub">Q4 vs Q1-Q3</div></div>
-    <div class="stat-card"><div class="stat-card-label">Min delta</div><div class="stat-card-val ${entry.min_delta >= 0 ? 'val-clutch':'val-fader'}">${entry.min_delta >= 0 ? '+' : ''}${entry.min_delta.toFixed(1)}</div><div class="stat-card-sub">Q4 vs Q1-Q3/q</div></div>
-    <div class="stat-card"><div class="stat-card-label">Close games</div><div class="stat-card-val val-neutral">${entry.games}</div><div class="stat-card-sub">qualifying appearances</div></div>
-  `;
-
-  buildDrill(entry);
-}
-
-function buildDrill(entry) {
-  const ex1 = document.getElementById('chkB1').checked;
-  const ex2 = document.getElementById('chkB2').checked;
-  let games = (GAME_LOG[entry.key] || []).filter(g => g.min > 0);
-  if (ex1) games = games.filter(g => g.m <= 15);
-  if (ex2) games = games.filter(g => g.fm <= 20);
-
-  const hasLog = games.length > 0;
-  const wrap = document.getElementById('drillWrap');
-  const noLog = document.getElementById('drillNoLog');
-  if (!hasLog) {
-    wrap.style.display = 'none';
-    noLog.style.display = 'block';
-    document.getElementById('drillNote').textContent = '';
-    if (drillChart) { drillChart.destroy(); drillChart = null; }
-    return;
+  // Season cards
+  const seasons = SEASON_DATA[entry.key] || [];
+  const seasonsEl = document.getElementById('drillSeasons');
+  if (seasons.length === 0) {
+    seasonsEl.innerHTML = '<div style="font-size:0.8rem;color:var(--text-dim);padding:0.5rem 0;">Season breakdown not available.</div>';
+  } else {
+    seasonsEl.innerHTML = seasons.map(buildSeasonCard).join('');
   }
 
-  // Pick the right per-game field and baseline for the selected metric
-  const metricChart = {
-    pts:   { q4: g => g.pts, base: g => entry.avg_pts_q1q3,          label: 'Points',  },
-    fgpct: { q4: g => g.fgp, base: g => g.fb != null ? g.fb : null,  label: 'FG%',     },
-    ast:   { q4: g => g.ast, base: g => g.ab != null ? g.ab : null,  label: 'Assists',  },
-    min:   { q4: g => g.min, base: g => g.mb != null ? g.mb : null,  label: 'Minutes',  },
-  };
-  const mc = metricChart[currentMetric] || metricChart.pts;
-  const q4vals = games.map(g => mc.q4(g));
-  const basevals = games.map(g => mc.base(g));
-  const yLabel = mc.label;
-
-  wrap.style.display = 'block';
-  wrap.style.height = '300px';
-  noLog.style.display = 'none';
-  document.getElementById('drillNote').textContent = `${games.length} games shown. Hover each bar for full Q4 stats.`;
-  const labelEl = document.getElementById('drillChartMetricLabel');
-  if (labelEl) labelEl.textContent = mc.label;
-  const legendEl = document.getElementById('drillLegendMetric');
-  if (legendEl) legendEl.textContent = mc.label.toLowerCase();
-
-  const labels = games.map(g => `${g.d} ${g.hw}${g.opp}`);
-
-  if (drillChart) { drillChart.destroy(); drillChart = null; }
-  wrap.innerHTML = '<canvas id="drillChart" style="width:100%;height:300px;"></canvas>';
-  drillChart = new Chart(document.getElementById('drillChart'), {
-    type:'bar',
-    data:{
-      labels,
-      datasets:[
-        {label:'Q4', data:q4vals, backgroundColor:'#378ADD', borderRadius:2, barPercentage:0.6, order:2},
-        {label:'Q1-Q3 avg', data:basevals, type:'line', borderColor:'rgba(136,135,128,0.7)', borderDash:[4,3], borderWidth:1.5, pointRadius:0, fill:false, order:1}
-      ]
-    },
-    options:{
-      responsive:true, maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          backgroundColor:'#111', borderColor:'#006b72', borderWidth:1,
-          callbacks:{
-            title:ctx => { const g = games[ctx[0].dataIndex]; return `${g.d} ${g.hw} ${g.opp}`; },
-            label:ctx => {
-              const g = games[ctx.dataIndex];
-              return [
-                `Q4: ${g.pts}pts, ${g.ast}ast, ${g.reb}reb`,
-                `FG: ${g.fgm}/${g.fga}${g.fgp!=null?' ('+g.fgp.toFixed(0)+'%)':''}`,
-                `Min: ${g.min.toFixed(1)}  |  Margin entering Q4: ${g.m}`,
-                `Q1-Q3 avg pts/q: ${g.base.toFixed(1)}`
-              ];
-            }
-          }
-        }
-      },
-      scales:{
-        x:{ticks:{color:'#666',font:{size:10,family:"'DM Sans',sans-serif"},maxRotation:55,autoSkip:true,maxTicksLimit:18},grid:{color:'rgba(0,107,114,0.08)'}},
-        y:{grid:{color:'rgba(0,107,114,0.08)'},ticks:{color:'#666',font:{size:11,family:"'DM Mono',monospace"}},title:{display:true,text:yLabel,color:'#666',font:{size:11}}}
-      }
-    }
-  });
+  // Combined stat cards
+  const cls = entry.pts_delta >= 0 ? 'val-clutch' : 'val-fader';
+  document.getElementById('drillStats').innerHTML =
+    '<div class="stat-card"><div class="stat-card-label">Pts Q4 avg</div><div class="stat-card-val ' + cls + '">' + entry.avg_pts_q4.toFixed(1) + '</div><div class="stat-card-sub">vs ' + entry.avg_pts_q1q3.toFixed(1) + ' Q1-Q3/q</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">Points delta</div><div class="stat-card-val ' + cls + '">' + d + entry.pts_delta.toFixed(2) + '</div><div class="stat-card-sub">per quarter</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">FG% delta</div><div class="stat-card-val ' + (entry.fgpct_delta>=0?'val-clutch':'val-fader') + '">' + (entry.fgpct_delta>=0?'+':'') + entry.fgpct_delta.toFixed(1) + '%</div><div class="stat-card-sub">Q4 vs Q1-Q3</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">Ast delta</div><div class="stat-card-val ' + (entry.ast_delta>=0?'val-clutch':'val-fader') + '">' + (entry.ast_delta>=0?'+':'') + entry.ast_delta.toFixed(2) + '</div><div class="stat-card-sub">Q4 vs Q1-Q3/q</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">Min delta</div><div class="stat-card-val ' + (entry.min_delta>=0?'val-clutch':'val-fader') + '">' + (entry.min_delta>=0?'+':'') + entry.min_delta.toFixed(1) + '</div><div class="stat-card-sub">Q4 vs Q1-Q3/q</div></div>' +
+    '<div class="stat-card"><div class="stat-card-label">Close games</div><div class="stat-card-val val-neutral">' + entry.games + '</div><div class="stat-card-sub">qualifying appearances</div></div>';
 }
+
 
 document.getElementById('metricSel').addEventListener('change', e => {
   currentMetric = e.target.value;
@@ -419,7 +460,6 @@ document.getElementById('metricSel').addEventListener('change', e => {
 });
 ['chkB1','chkB2'].forEach(id => document.getElementById(id).addEventListener('change', () => {
   if (document.getElementById('lbView').style.display !== 'none') buildLeaderboard();
-  else if (currentEntry) buildDrill(currentEntry);
 }));
 document.getElementById('backBtn').addEventListener('click', () => {
   document.getElementById('drillView').style.display='none';
